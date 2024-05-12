@@ -1,0 +1,11 @@
+<div class="flex w-full justify-between">
+  <nz-card [nzTitle]="'Analytics'" [nzBordered]="false">
+    <canvas #analyticsChartCanvas>{{ analyticsChart }}</canvas>
+  </nz-card>
+  <nz-card [nzTitle]="'Timetable'" [nzBordered]="false">
+    <canvas #timetableChartCanvas>{{ timetableChart }}</canvas>
+  </nz-card>
+  <nz-card [nzTitle]="'Finance'" [nzBordered]="false">
+    <canvas #financeChartCanvas>{{ financeChart }}</canvas>
+  </nz-card>
+</div>
