@@ -1,0 +1,44 @@
+<nz-table #basicTable [nzData]="schools">
+  <thead>
+  <tr>
+    <th>School</th>
+    <th>Type</th>
+    <th>Products</th>
+    <th>County</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let school of basicTable.data">
+    <td>{{ school.name }}</td>
+    <td>{{ school.type }}</td>
+    <td>
+      <nz-tag *ngFor="let product of school.products" [nzColor]="'blue'">{{ product }}</nz-tag>
+    </td>
+    <td>{{ school.county }}</td>
+    <td class="space-x-2">
+      <nz-button-group>
+        <a
+          [routerLink]="[123]"
+          nz-button nzType="primary" nzSize="default">View More Details</a>
+
+        <button nz-button nz-dropdown [nzDropdownMenu]="menu1" nzType="primary" nzSize="default"
+                nzPlacement="bottomRight">
+          <span nz-icon nzType="down"></span>
+        </button>
+      </nz-button-group>
+
+      <nz-dropdown-menu #menu1="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>
+            View School Invoices
+          </li>
+          <li nz-menu-item>
+            View School Collections
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

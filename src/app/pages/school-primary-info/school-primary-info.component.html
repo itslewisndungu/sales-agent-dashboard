@@ -1,0 +1,67 @@
+<div class="">
+  <div class="space-y-10">
+    <div>
+      <h2 class="mb-4">
+        School Details
+      </h2>
+
+      <nz-descriptions
+        class="bg-white"
+        [nzColumn]="{lg: 2,md: 2,xl: 2,xxl: 2,sm: 2, xs: 1 }"
+        nzBordered
+      >
+        <nz-descriptions-item nzTitle="Type">Primary School</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Product(s) Used">
+          <nz-tag nzColor="blue">Zeraki Analytics</nz-tag>
+          <nz-tag nzColor="blue">Zeraki Timetable</nz-tag>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="County">Nairobi</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Registration Date">2018-04-24</nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+
+    <div>
+      <h2 class="mb-4">
+        Contact Information
+      </h2>
+
+      <nz-descriptions
+        class="bg-white"
+        [nzColumn]="{lg: 2,md: 2,xl: 2,xxl: 2,sm: 2, xs: 1 }"
+        nzBordered
+      >
+        <nz-descriptions-item nzTitle="Mobile NO">0700000000</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Email">
+          <a nz-button nzSize="small" nzType="link" href="mailto:lewis@gmail.com">lewis&#64;gmail.com</a>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Website">
+          <a nz-button nzSize="small" nzType="link" href="https://google.com">google.com</a>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Address">
+          123 Main Road, Anytown Kenya
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+
+    <div>
+      <h2 class="mb-4">
+        Financial Information
+      </h2>
+
+      <nz-descriptions
+        [nzColumn]="{lg: 2,md: 2,xl: 2,xxl: 2,sm: 2, xs: 1 }"
+        class="bg-white"
+        nzBordered
+      >
+        <nz-descriptions-item nzTitle="Current School Balance">
+          {{ 1000000 | currency: 'KES': 'symbol-narrow' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Payment Due Date">
+          {{ '12-12-2024' | date }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </div>
+</div>
+
+

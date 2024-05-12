@@ -1,0 +1,51 @@
+<div class="bg-white">
+  <nz-descriptions
+    nzBordered
+    [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }"
+  >
+    <nz-descriptions-item nzTitle="Product">Cloud Database</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Invoice Item(s)">
+      <nz-tag nzColor="blue">Zeraki Analytics</nz-tag>
+      <nz-tag nzColor="blue">Zeraki Timetable</nz-tag>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Invoice date">{{ "2020-01-01" | date }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Due date">{{ "2020-01-01" | date }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Total Payable Amount">{{ 20000 | currency: "KSH " }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Outstanding Balance">{{ 20000 | currency: "KSH " }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Invoice Status">
+      <nz-tag nzColor="green">Paid</nz-tag>
+    </nz-descriptions-item>
+  </nz-descriptions>
+</div>
+
+<h2 class="pt-6 pb-2">Invoice Collections</h2>
+
+<div>
+  <nz-table #collectionsTable [nzData]="collections">
+    <thead>
+    <tr>
+      <th>Collection ID</th>
+      <th>Invoice Number</th>
+      <th>Collection Date</th>
+      <th>Amount</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let collection of collectionsTable.data; index as id">
+      <td>COLL-{{ id }}</td>
+      <td>{{ collection.invoiceNumber }}</td>
+      <td>{{ collection.date | date }}</td>
+      <td>{{ collection.amount | currency:'KES ':'symbol-narrow':'1.2-2' }}</td>
+      <td>
+        <nz-tag
+          [nzColor]="collection.status === 'Valid' ? 'green' : (collection.status === 'Bounced' ? 'red' : 'blue')">
+          {{ collection.status }}
+        </nz-tag>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

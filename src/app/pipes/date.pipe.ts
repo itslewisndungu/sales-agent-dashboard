@@ -8,8 +8,18 @@ import { format, isDate } from "date-fns";
 })
 export class DatePipe implements PipeTransform {
   transform(date: Date | string): string {
-    if (isDate(date)) {
-      return format(new Date(date), "do MMMM, yyyy 'at' h:mm aa");
+    let dateToFormat = date;
+
+    if (typeof date === "string") {
+      if (isNaN(new Date(date).getTime())) {
+        dateToFormat = date;
+      } else {
+        dateToFormat = new Date(date);
+      }
+    }
+
+    if (isDate(dateToFormat)) {
+      return format(new Date(dateToFormat), "do MMMM, yyyy");
     } else {
       return date.toString();
     }

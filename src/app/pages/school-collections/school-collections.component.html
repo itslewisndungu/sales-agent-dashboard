@@ -1,0 +1,31 @@
+<div class="flex justify-between items-center mb-6">
+  <h2 class="mb-0">
+    School Collections
+  </h2>
+</div>
+
+<nz-table #collectionsTable [nzData]="collections">
+  <thead>
+  <tr>
+    <th>Collection ID</th>
+    <th>Invoice Number</th>
+    <th>Collection Date</th>
+    <th>Amount</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let collection of collectionsTable.data; index as id">
+    <td>COLL-{{ id }}</td>
+    <td>{{ collection.invoiceNumber }}</td>
+    <td>{{ collection.date | date }}</td>
+    <td>{{ collection.amount | currency:'KES ':'symbol-narrow':'1.2-2' }}</td>
+    <td>
+      <nz-tag [nzColor]="collection.status === 'Valid' ? 'green' : (collection.status === 'Bounced' ? 'red' : 'blue')">
+        {{ collection.status }}
+      </nz-tag>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

@@ -1,0 +1,46 @@
+<div class="flex justify-between items-center mb-6">
+  <h2 class="mb-0">
+    School Invoices
+  </h2>
+
+  <button nz-button nzType="primary" (click)="invoiceSchool()">
+    Add Invoice
+
+    <span class="ml-2">
+      <i nz-icon nzType="plus"></i>
+    </span>
+  </button>
+</div>
+
+<nz-table #basicTable [nzData]="upcomingInvoices">
+  <thead>
+  <tr>
+    <th>Invoice ID</th>
+    <th>Amount Due</th>
+    <th>Due Date</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let invoice of basicTable.data; index as id">
+    <td>
+      <a nz-button nzType="link" [routerLink]="[id]">
+        {{ formatID(id + 1) }}
+      </a>
+    </td>
+    <td>{{ invoice.amountDue | currency: 'KSH ' }}</td>
+    <td>{{ invoice.dueDate | date }}</td>
+    <td>
+      <nz-tag [nzColor]="invoice.status === 'pending' ? 'orange' : 'green'" class="capitalize">
+        {{ invoice.status }}
+      </nz-tag>
+    </td>
+    <td>
+      <button nz-button nzType="primary" nzSize="small" (click)="collectPayment(invoice)">
+        Collect Payment
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
