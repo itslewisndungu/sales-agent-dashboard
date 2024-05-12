@@ -7,6 +7,7 @@ import { NzIconDirective } from "ng-zorro-antd/icon";
 import { NzDropDownModule } from "ng-zorro-antd/dropdown";
 import { RouterLink } from "@angular/router";
 import { NzTagComponent } from "ng-zorro-antd/tag";
+import { School } from "../../types/school";
 
 @Component({
   selector: "app-schools-list",
@@ -16,12 +17,28 @@ import { NzTagComponent } from "ng-zorro-antd/tag";
   styleUrl: "./schools-list.component.css"
 })
 export class SchoolsListComponent implements OnInit {
-  schools?: any;
+  schools: School[] = [];
+  isFetchingSchools = false;
 
-  constructor(readonly SchoolsService: SchoolsService) {
+  constructor(readonly schoolsService: SchoolsService) {
   }
 
   ngOnInit() {
-    this.schools = this.SchoolsService.getAllSchoolsList();
+    this.isFetchingSchools = true;
+
+    this.schoolsService.getAllSchoolsList().subscribe(
+      {
+        next: (data: School[]) => {
+          this.schools = data;
+          this.isFetchingSchools = false;
+        },
+        error: (error: any) => {
+          this.schools = [];
+          console.error("Error: ", error);
+          this.isFetchingSchools = false;
+        }
+      }
+    );
   }
+
 }

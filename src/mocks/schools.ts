@@ -109,7 +109,7 @@ const schools: School[] = [
 ];
 
 export const handlers = [
-  http.get("/schools", () => {
+  http.get("http://localhost:3000/schools", () => {
     return HttpResponse.json(schools);
   })
 ];
