@@ -19,6 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(en_US),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
-    provideHttpClient()
-  ]
+    provideHttpClient(),
+  ],
 };

@@ -4,7 +4,7 @@
   </h2>
 </div>
 
-<nz-table #collectionsTable [nzData]="collections">
+<nz-table #collectionsTable [nzData]="collections" [nzLoading]="fetchingCollections">
   <thead>
   <tr>
     <th>Collection ID</th>
@@ -12,6 +12,7 @@
     <th>Collection Date</th>
     <th>Amount</th>
     <th>Status</th>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -22,10 +23,25 @@
     <td>{{ collection.date | date }}</td>
     <td>{{ collection.amount | currency:'KES ':'symbol-narrow':'1.2-2' }}</td>
     <td>
-      <nz-tag [nzColor]="collection.status === 'Valid' ? 'green' : (collection.status === 'Bounced' ? 'red' : 'blue')">
+      <nz-tag class="capitalize" [nzColor]="collection.status === 'valid' ? 'blue' : 'warning'">
         {{ collection.status }}
       </nz-tag>
+    </td>
+    <td>
+      <button nz-button nzType="primary" nzSize="small" (click)="updateCollectionStatus(collection)">
+        Update Status
+      </button>
     </td>
   </tr>
   </tbody>
 </nz-table>
+
+@if (updatingCollectionState.isUpdating && updatingCollectionState.selectedCollection) {
+  <!--    If the above if statement is true, then this is visible-->
+  <app-update-collection-status
+    [isVisible]="true"
+    [collection]="updatingCollectionState.selectedCollection"
+    (statusUpdateCancelled)="closeUpdateCollectionStatusModal()"
+    (statusUpdateSuccessful)="closeUpdateCollectionStatusModal(); refetchCollections()"
+    ></app-update-collection-status>
+}

@@ -1,7 +1,7 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   [nzTitle]="'Collect payment for invoice'"
-  (nzOnCancel)="cancelCollection.emit()"
+  (nzOnCancel)="paymentCollectionCancelled.emit()"
 >
   <ng-template nzModalContent>
     <form nz-form [formGroup]="invoiceForm" (ngSubmit)="collectPayment()">
@@ -57,7 +57,7 @@
     </form>
   </ng-template>
   <ng-template nzModalFooter>
-    <button nz-button (click)="cancelCollection.emit()">Cancel</button>
+    <button nz-button (click)="paymentCollectionCancelled.emit()">Cancel</button>
     <button
       nz-button
       nzType="primary"

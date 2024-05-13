@@ -35,8 +35,8 @@ import { NzMessageService } from "ng-zorro-antd/message";
 export class CollectPaymentComponent implements OnInit {
   @Input() isVisible = false;
   @Input() invoice!: Invoice;
-  @Output() cancelCollection = new EventEmitter<void>();
-  @Output() collectionSuccess = new EventEmitter();
+  @Output() paymentCollectionCancelled = new EventEmitter<void>();
+  @Output() paymentCollectionSuccessful = new EventEmitter();
 
   invoiceForm!: FormGroup;
   isLoading = false;
@@ -83,7 +83,7 @@ export class CollectPaymentComponent implements OnInit {
     this.invoiceService.collectPayment(this.invoice.id, amountPaid).subscribe({
       next: () => {
         this.isLoading = false;
-        this.collectionSuccess.emit();
+        this.paymentCollectionSuccessful.emit();
         this.message.info(
           `Payment of KES ${amountPaid} for invoice ${this.invoice.id} has been collected successfully`,
           {

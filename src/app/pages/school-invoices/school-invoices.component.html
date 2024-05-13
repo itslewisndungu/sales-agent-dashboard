@@ -50,7 +50,7 @@
   <app-collect-payment
     [isVisible]="invoicePaymentCollectionState.isAddingCollectionToInvoice"
     [invoice]="invoicePaymentCollectionState.selectedInvoice"
-    (cancelCollection)="closePaymentCollectionModal()"
-    (collectionSuccess)="closePaymentCollectionModal(); fetchInvoices()"
+    (paymentCollectionCancelled)="closePaymentCollectionModal()"
+    (paymentCollectionSuccessful)="closePaymentCollectionModal(); fetchInvoices()"
   />
 }

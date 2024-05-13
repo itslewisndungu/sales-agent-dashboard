@@ -29,6 +29,6 @@ export class SchoolInvoiceDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.collections = this.collectionsService.getInvoiceCollections("hello world");
+    this.collections = this.collectionsService.getInvoiceCollections(1);
   }
 }

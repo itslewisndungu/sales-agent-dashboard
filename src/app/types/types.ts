@@ -53,3 +53,12 @@ export interface Invoice {
   dueDate: Date;
   status: string;
 }
+
+export interface Collection {
+  id: number;
+  schoolName: string;
+  invoiceNumber: string;
+  date: string;
+  amount: number;
+  status: "bounced" | "valid";
+}

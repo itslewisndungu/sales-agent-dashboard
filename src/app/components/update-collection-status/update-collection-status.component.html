@@ -1,0 +1,56 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="submitForm()">
+  <ng-template nzModalContent>
+    <form class="p-4" [formGroup]="collectionForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="collectionNumber">Collection Number</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="collectionNumber" id="collectionNumber" readonly />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount">Amount</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="amount" id="amount" readonly />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="currentStatus">Current Status</nz-form-label>
+        <nz-form-control>
+          <input hidden nz-input formControlName="currentStatus" id="currentStatus" readonly />
+
+          <nz-tag
+            [nzColor]="collection.status === 'valid' ? 'blue' : 'warning'"
+            class="capitalize"
+          >
+            {{ collection.status }}
+          </nz-tag>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="newStatus">New Status</nz-form-label>
+        <nz-form-control nzErrorTip="Please select a new status.">
+          <nz-select id="newStatus" formControlName="newStatus">
+            <nz-option nzValue="valid" nzLabel="Valid"></nz-option>
+            <nz-option nzValue="bounced" nzLabel="Bounced"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-template>
+
+  <ng-template nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button
+      nz-button
+      [nzLoading]="updateCollectionStatus"
+      nzType="primary"
+      (click)="submitForm()"
+      [disabled]="collectionForm.get('newStatus')?.value === collection.status"
+    >
+      Update Status
+    </button>
+  </ng-template>
+</nz-modal>
