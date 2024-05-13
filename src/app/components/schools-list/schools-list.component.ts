@@ -7,7 +7,7 @@ import { NzIconDirective } from "ng-zorro-antd/icon";
 import { NzDropDownModule } from "ng-zorro-antd/dropdown";
 import { RouterLink } from "@angular/router";
 import { NzTagComponent } from "ng-zorro-antd/tag";
-import { School } from "../../types/school";
+import { School } from "../../types/types";
 
 @Component({
   selector: "app-schools-list",

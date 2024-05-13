@@ -1,6 +1,7 @@
 <nz-table #basicTable [nzData]="upcomingInvoices">
   <thead>
   <tr>
+    <th>Invoice Number</th>
     <th>School</th>
     <th>Amount Due</th>
     <th>Due Date</th>
@@ -10,19 +11,35 @@
   </thead>
   <tbody>
   <tr *ngFor="let invoice of basicTable.data">
-    <td>{{ invoice.schoolName }}</td>
-    <td>{{ invoice.amountDue | currency: 'KSH ' }}</td>
+    <td>{{ invoice.id }}</td>
+    <td>{{ invoice.school.name }}</td>
+    <td>{{ invoice.amountDue | currency: "KSH " }}</td>
     <td>{{ invoice.dueDate | date }}</td>
     <td>
-      <nz-tag [nzColor]="invoice.status === 'pending' ? 'orange' : 'green'" class="capitalize">
+      <nz-tag
+        [nzColor]="invoice.status === 'pending' ? 'orange' : 'green'"
+        class="capitalize"
+      >
         {{ invoice.status }}
       </nz-tag>
     </td>
     <td>
-      <button nz-button nzType="primary" nzSize="small" (click)="collectPayment(invoice)">
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="small"
+        (click)="handleCollection(invoice)"
+      >
         Collect Payment
       </button>
     </td>
   </tr>
   </tbody>
 </nz-table>
+
+@if (invoiceCollectionState.selectedInvoice) {
+  <app-collect-payment
+    [isVisible]="invoiceCollectionState.isAddingCollectionToInvoice"
+    [invoice]="invoiceCollectionState.selectedInvoice"
+    (cancelCollection)=" invoiceCollectionState.isAddingCollectionToInvoice = false" />
+}

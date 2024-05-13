@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import Chart from "chart.js/auto";
 import { NzCardModule } from "ng-zorro-antd/card";
+import { SignupTargetStatistics, SignupTargetStatisticsByProduct } from "../../types/types";
 
 @Component({
   selector: "app-target-chart",
@@ -10,6 +11,9 @@ import { NzCardModule } from "ng-zorro-antd/card";
   styleUrl: "./target-chart.component.css"
 })
 export class TargetChartComponent implements AfterViewInit, OnDestroy {
+  @Input()
+  targets!: SignupTargetStatisticsByProduct;
+
   public analyticsChart?: Chart<"pie", number[]>;
   public timetableChart?: Chart<"pie", number[]>;
   public financeChart?: Chart<"pie", number[]>;
@@ -44,8 +48,27 @@ export class TargetChartComponent implements AfterViewInit, OnDestroy {
     this.createCharts();
   };
 
+  createCharts() {
+    if (this.analyticsChartEl && this.timetableChartEl && this.financeChartEl) {
+      this.analyticsChart = this.createPieChart(
+        this.analyticsChartEl.nativeElement,
+        this.getPieChartData(this.targets.analytics, "Analytics")
+      );
+
+      this.timetableChart = this.createPieChart(
+        this.timetableChartEl.nativeElement,
+        this.getPieChartData(this.targets.timetable, "Timetable")
+      );
+
+      this.financeChart = this.createPieChart(
+        this.financeChartEl.nativeElement,
+        this.getPieChartData(this.targets.finance, "Finance")
+      );
+    }
+  }
+
   // Helper to create common pie charts
-  getPieChart(element: HTMLCanvasElement, data: any) {
+  createPieChart(element: HTMLCanvasElement, data: any) {
     return new Chart(element, {
       type: "pie",
       data: data,
@@ -55,13 +78,13 @@ export class TargetChartComponent implements AfterViewInit, OnDestroy {
           legend: {
             position: "top"
           },
-          // Display percentage of the targets in the tooltips
+          // Customizing the tooltip to show the actual number of signups
           tooltip: {
             callbacks: {
               label: function(context: any) {
                 let label = context.label || "";
                 if (context.parsed !== null) {
-                  label += ": " + context.parsed + "%";
+                  label += `: ${context.parsed} signups`;
                 }
                 return label;
               }
@@ -72,12 +95,22 @@ export class TargetChartComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  createCharts() {
-    if (this.analyticsChartEl && this.timetableChartEl && this.financeChartEl) {
-      this.analyticsChart = this.getPieChart(this.analyticsChartEl.nativeElement, this.analyticsData);
-      this.timetableChart = this.getPieChart(this.timetableChartEl.nativeElement, this.analyticsData);
-      this.financeChart = this.getPieChart(this.financeChartEl.nativeElement, this.analyticsData);
-    }
+  getPieChartData(data: SignupTargetStatistics, label: string) {
+    return {
+      labels: [
+        "Target Achieved",
+        "Remaining Target"
+      ],
+      datasets: [{
+        label: label,
+        data: [data.totalSignups, data.target - data.totalSignups],
+        backgroundColor: [
+          "rgb(54, 162, 235)",
+          "rgb(255, 205, 86)"
+        ],
+        hoverOffset: 4
+      }]
+    };
   }
 
   ngOnDestroy() {

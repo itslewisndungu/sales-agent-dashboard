@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import Chart from "chart.js/auto";
 import { NzCardComponent } from "ng-zorro-antd/card";
+import { SignupDistributionByProduct } from "../../types/types";
 
 @Component({
   selector: "app-signup-overview",
@@ -11,35 +12,17 @@ import { NzCardComponent } from "ng-zorro-antd/card";
   templateUrl: "./signup-overview.component.html",
   styleUrl: "./signup-overview.component.css"
 })
-export class SignupOverviewComponent {
+export class SignupOverviewComponent implements AfterViewInit, OnDestroy {
+  @Input()
+  signupsDistribution!: SignupDistributionByProduct;
+
   public signupsOverviewChart?: Chart<"bar", number[]>;
 
   @ViewChild("signupOverviewCanvas")
   signupOverviewChartEl?: ElementRef<HTMLCanvasElement>;
 
-  // todo: replace with actual data from a service
-  signupOverviewData = {
-    labels: ["Primary Schools", "Secondary Schools", "IGCSE"],
-    datasets: [
-      {
-        label: "Zeraki Analytics",
-        data: [120, 85, 98],
-        backgroundColor: "rgba(255, 99, 132, 1)"
-      },
-      {
-        label: "Zeraki Finance",
-        data: [75, 110, 62],
-        backgroundColor: "rgba(54, 162, 235, 1)"
-      },
-      {
-        label: "Zeraki Timetable",
-        data: [92, 78, 105],
-        backgroundColor: "rgba(255, 205, 86, 1)"
-      }
-    ]
-  };
-
-  // Using ngAfterViewInit lifecycle hook to ensure the canvas element is available before creating the chart
+  // Using ngAfterViewInit lifecycle hook to ensure the canvas element
+  // is available before creating the chart
   ngAfterViewInit(): void {
     this.createChart();
   }
@@ -48,7 +31,7 @@ export class SignupOverviewComponent {
     if (this.signupOverviewChartEl) {
       this.signupsOverviewChart = new Chart(this.signupOverviewChartEl.nativeElement, {
         type: "bar",
-        data: this.signupOverviewData,
+        data: this.getChartData(),
         options: {
           responsive: true,
           scales: {
@@ -62,6 +45,35 @@ export class SignupOverviewComponent {
         }
       });
     }
+  }
+
+  getChartData() {
+    const { analytics, timetable, finance } = this.signupsDistribution;
+
+    return {
+      labels: ["Zeraki Analytics", "Zeraki Finance", "Zeraki Timetable"],
+      datasets: [
+        {
+          label: "Primary Schools",
+          data: [analytics.primary, finance.primary, timetable.primary],
+          backgroundColor: "rgba(255, 99, 132, 1)"
+        },
+        {
+          label: "Secondary Schools",
+          data: [analytics.secondary, finance.secondary, timetable.secondary],
+          backgroundColor: "rgba(54, 162, 235, 1)"
+        },
+        {
+          label: "IGCSE",
+          data: [analytics.igcse, finance.igcse, timetable.igcse],
+          backgroundColor: "rgba(255, 205, 86, 1)"
+        }
+      ]
+    };
+  }
+
+  ngOnDestroy() {
+    this.signupsOverviewChart?.destroy();
   }
 }
 

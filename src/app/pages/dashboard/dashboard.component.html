@@ -3,35 +3,53 @@
 
   <div class="grid grid-cols-4 gap-4 mb-8">
     <nz-card [nzBordered]="false">
-      <nz-statistic nzTitle="Total Collections Made" [nzValue]="(100000 | currency: 'KSH ') ?? '0'"></nz-statistic>
+      <nz-statistic
+        nzTitle="Total Collections Made"
+        [nzValue]="(statistics?.totalCollectionsMade | currency: 'KSH ') ?? '0'"
+      ></nz-statistic>
     </nz-card>
 
     <nz-card [nzBordered]="false">
-      <nz-statistic [nzTitle]="'New Schools Signed Up'" [nzValue]="(3500 | number) ?? '0'"></nz-statistic>
+      <nz-statistic
+        [nzTitle]="'New Schools Signed Up'"
+        [nzValue]="(statistics?.newSchoolsSignedUp | number) ?? '0'"
+      ></nz-statistic>
     </nz-card>
 
     <nz-card [nzBordered]="false">
       <nz-statistic
         [nzTitle]="'Total Revenue by Product'"
-        [nzValue]="(100000 | currency: 'KSH ') ?? '0'"></nz-statistic>
+        [nzValue]="(statistics?.totalRevenueByProduct | currency: 'KSH ') ?? '0'"
+      ></nz-statistic>
     </nz-card>
 
     <nz-card [nzBordered]="false">
-      <nz-statistic [nzTitle]="'Number of Bounced Cheques'" [nzValue]="(35 | number) ?? '0'"></nz-statistic>
+      <nz-statistic
+        [nzTitle]="'Number of Bounced Cheques'"
+        [nzValue]="(statistics?.numberOfBouncedCheques | number) ?? '0'"
+      ></nz-statistic>
     </nz-card>
   </div>
 
   <div class="mb-8">
     <h2 class="mb-4">Progress Towards Signup Targets</h2>
     <div class="">
-      <app-target-chart />
+      @if (signupTargetStatistics) {
+        <app-target-chart [targets]="signupTargetStatistics" />
+      } @else {
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      }
     </div>
   </div>
 
   <div class="mb-8">
     <h2 class="mb-4">Product Signups Distribution Across School Types</h2>
     <div class="">
-      <app-signup-overview />
+      @if (signupDistributionAcrossSchoolTypes) {
+        <app-signup-overview [signupsDistribution]="signupDistributionAcrossSchoolTypes" />
+      } @else {
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      }
     </div>
   </div>
 
@@ -43,3 +61,4 @@
   </div>
 
 </section>
+
