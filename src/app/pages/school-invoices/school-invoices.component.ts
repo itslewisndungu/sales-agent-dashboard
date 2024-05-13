@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { CurrencyPipe, NgForOf } from "@angular/common";
 import { DatePipe } from "../../pipes/date.pipe";
 import { NzButtonComponent } from "ng-zorro-antd/button";
@@ -8,11 +8,15 @@ import {
   NzTbodyComponent,
   NzTheadComponent,
   NzThMeasureDirective,
-  NzTrDirective
+  NzTrDirective,
 } from "ng-zorro-antd/table";
 import { NzTagComponent } from "ng-zorro-antd/tag";
 import { RouterLink } from "@angular/router";
 import { NzIconDirective } from "ng-zorro-antd/icon";
+import { InvoicesService } from "../../services/invoices.service";
+import { Invoice } from "../../types/types";
+import { CollectPaymentComponent } from "../../components/collect-payment/collect-payment.component";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-school-invoices",
@@ -30,84 +34,63 @@ import { NzIconDirective } from "ng-zorro-antd/icon";
     NzThMeasureDirective,
     NzTheadComponent,
     NzTrDirective,
-    NzIconDirective
+    NzIconDirective,
+    CollectPaymentComponent,
   ],
   templateUrl: "./school-invoices.component.html",
-  styleUrl: "./school-invoices.component.css"
+  styleUrl: "./school-invoices.component.css",
 })
-export class SchoolInvoicesComponent {
-  upcomingInvoices = [
-    {
-      schoolName: "St. Mary's Primary School",
-      amountDue: 5800,
-      dueDate: new Date("2024-05-20"),
-      status: "pending"
-    },
-    {
-      schoolName: "Green Hills Academy",
-      amountDue: 12500,
-      dueDate: new Date("2024-05-28"),
-      status: "pending"
-    },
-    {
-      schoolName: "Brookside Secondary School",
-      amountDue: 8200,
-      dueDate: new Date("2024-06-10"),
-      status: "pending"
-    },
-    {
-      schoolName: "Nairobi International School",
-      amountDue: 21000,
-      dueDate: new Date("2024-06-15"),
-      status: "pending"
-    },
-    {
-      schoolName: "Hillcrest Preparatory School",
-      amountDue: 18500,
-      dueDate: new Date("2024-06-22"),
-      status: "pending"
-    },
-    {
-      schoolName: "Braeburn School",
-      amountDue: 9800,
-      dueDate: new Date("2024-07-05"),
-      status: "pending"
-    },
-    {
-      schoolName: "Gems Cambridge International School",
-      amountDue: 15600,
-      dueDate: new Date("2024-07-12"),
-      status: "pending"
-    },
-    {
-      schoolName: "Peponi School",
-      amountDue: 11200,
-      dueDate: new Date("2024-07-20"),
-      status: "pending"
-    },
-    {
-      schoolName: "Banda School",
-      amountDue: 7400,
-      dueDate: new Date("2024-08-01"),
-      status: "pending"
-    },
-    {
-      schoolName: "The Aga Khan Academy",
-      amountDue: 23000,
-      dueDate: new Date("2024-08-15"),
-      status: "pending"
-    }
-  ];
+export class SchoolInvoicesComponent implements OnInit, OnDestroy {
+  invoiceSubscription?: Subscription;
+  invoices: Invoice[] = [];
+  fetchingInvoices = true;
 
-  collectPayment(invoice: any) {
-    console.log("Collecting payment for invoice: ", invoice);
+  invoicePaymentCollectionState: // <- This can be in the invoices service but implemented here for simplicity
+  | {
+        isAddingCollectionToInvoice: false;
+      }
+    | {
+        isAddingCollectionToInvoice: true;
+        selectedInvoice: Invoice;
+      } = {
+    isAddingCollectionToInvoice: false,
+  };
+
+  constructor(readonly invoiceService: InvoicesService) {}
+
+  ngOnInit(): void {
+    this.fetchInvoices();
   }
 
-  formatID(id: number) {
-    return `INV-${id}`;
+  fetchInvoices() {
+    this.fetchingInvoices = true;
+    this.invoiceSubscription?.unsubscribe();
+    this.invoiceSubscription = this.invoiceService
+      .getSchoolInvoices(1)
+      .subscribe((invoices) => {
+        this.invoices = invoices;
+        this.fetchingInvoices = false;
+      });
+  }
+
+  collectPayment(invoice: any) {
+    this.invoicePaymentCollectionState = {
+      isAddingCollectionToInvoice: true,
+      selectedInvoice: invoice,
+    };
   }
 
   invoiceSchool() {
     console.log("Invoicing school");
+  }
+
+  closePaymentCollectionModal() {
+    this.invoicePaymentCollectionState = {
+      isAddingCollectionToInvoice: false,
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.invoiceSubscription?.unsubscribe();
   }
 }

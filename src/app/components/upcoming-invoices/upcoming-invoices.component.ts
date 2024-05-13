@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NzTableModule } from "ng-zorro-antd/table";
 import { CurrencyPipe, NgForOf, NgIf } from "@angular/common";
 import { NzButtonComponent } from "ng-zorro-antd/button";
@@ -10,6 +10,7 @@ import { NzFormModule } from "ng-zorro-antd/form";
 import { InvoicesService } from "../../services/invoices.service";
 import { Invoice } from "../../types/types";
 import { CollectPaymentComponent } from "../collect-payment/collect-payment.component";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-upcoming-invoices",
@@ -30,31 +31,47 @@ import { CollectPaymentComponent } from "../collect-payment/collect-payment.comp
   templateUrl: "./upcoming-invoices.component.html",
   styleUrl: "./upcoming-invoices.component.css",
 })
-export class UpcomingInvoicesComponent implements OnInit {
+export class UpcomingInvoicesComponent implements OnInit, OnDestroy {
   upcomingInvoices: Invoice[] = [];
+  fetchInvoicesSubscription?: Subscription;
 
-  constructor(private invoiceService: InvoicesService) {}
-
-  invoiceCollectionState: {
-    isAddingCollectionToInvoice: boolean;
-    isSubmitting: boolean;
-    selectedInvoice?: Invoice;
-  } = {
+  invoicePaymentCollectionState:
+    | {
+        isAddingCollectionToInvoice: false;
+      }
+    | {
+        isAddingCollectionToInvoice: true;
+        selectedInvoice: Invoice;
+      } = {
     isAddingCollectionToInvoice: false,
-    isSubmitting: false,
   };
 
+  constructor(readonly invoiceService: InvoicesService) {}
+
   handleCollection(invoice: any) {
-    this.invoiceCollectionState = {
-      ...this.invoiceCollectionState,
+    this.invoicePaymentCollectionState = {
       isAddingCollectionToInvoice: true,
       selectedInvoice: invoice,
     };
   }
 
   ngOnInit(): void {
-    this.invoiceService.getLatestInvoices().subscribe((invoices) => {
-      this.upcomingInvoices = invoices;
-    });
+    this.fetchUpcomingInvoices()
+  }
+
+  fetchUpcomingInvoices() {
+    this.fetchInvoicesSubscription = this.invoiceService
+      .getLatestInvoices()
+      .subscribe((invoices) => {
+        this.upcomingInvoices = invoices;
+      });
+  }
+
+  closeCollectionModal() {
+    this.invoicePaymentCollectionState = { isAddingCollectionToInvoice: false }
+  }
+
+  ngOnDestroy() {
+    this.fetchInvoicesSubscription?.unsubscribe();
   }
 }

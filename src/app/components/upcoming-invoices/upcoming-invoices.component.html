@@ -37,9 +37,13 @@
   </tbody>
 </nz-table>
 
-@if (invoiceCollectionState.selectedInvoice) {
+
+<!-- This is to make the compiler happy-->
+@if (invoicePaymentCollectionState.isAddingCollectionToInvoice) {
   <app-collect-payment
-    [isVisible]="invoiceCollectionState.isAddingCollectionToInvoice"
-    [invoice]="invoiceCollectionState.selectedInvoice"
-    (cancelCollection)=" invoiceCollectionState.isAddingCollectionToInvoice = false" />
+    [isVisible]="invoicePaymentCollectionState.isAddingCollectionToInvoice"
+    [invoice]="invoicePaymentCollectionState.selectedInvoice"
+    (cancelCollection)="closeCollectionModal()"
+    (collectionSuccess)="closeCollectionModal(); fetchUpcomingInvoices()"
+  />
 }

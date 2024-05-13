@@ -36,6 +36,7 @@ export class CollectPaymentComponent implements OnInit {
   @Input() isVisible = false;
   @Input() invoice!: Invoice;
   @Output() cancelCollection = new EventEmitter<void>();
+  @Output() collectionSuccess = new EventEmitter();
 
   invoiceForm!: FormGroup;
   isLoading = false;
@@ -82,7 +83,7 @@ export class CollectPaymentComponent implements OnInit {
     this.invoiceService.collectPayment(this.invoice.id, amountPaid).subscribe({
       next: () => {
         this.isLoading = false;
-        this.cancelCollection.emit();
+        this.collectionSuccess.emit();
         this.message.info(
           `Payment of KES ${amountPaid} for invoice ${this.invoice.id} has been collected successfully`,
           {

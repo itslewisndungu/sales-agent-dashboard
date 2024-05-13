@@ -12,7 +12,7 @@
   </button>
 </div>
 
-<nz-table #basicTable [nzData]="upcomingInvoices">
+<nz-table #basicTable [nzData]="invoices" [nzLoading]="fetchingInvoices">
   <thead>
   <tr>
     <th>Invoice ID</th>
@@ -23,10 +23,10 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let invoice of basicTable.data; index as id">
+  <tr *ngFor="let invoice of basicTable.data">
     <td>
-      <a nz-button nzType="link" [routerLink]="[id]">
-        {{ formatID(id + 1) }}
+      <a nz-button nzType="link" [routerLink]="[invoice.id]">
+        {{ invoice.id }}
       </a>
     </td>
     <td>{{ invoice.amountDue | currency: 'KSH ' }}</td>
@@ -44,3 +44,13 @@
   </tr>
   </tbody>
 </nz-table>
+
+<!-- This is to make the compiler happy-->
+@if (invoicePaymentCollectionState.isAddingCollectionToInvoice) {
+  <app-collect-payment
+    [isVisible]="invoicePaymentCollectionState.isAddingCollectionToInvoice"
+    [invoice]="invoicePaymentCollectionState.selectedInvoice"
+    (cancelCollection)="closePaymentCollectionModal()"
+    (collectionSuccess)="closePaymentCollectionModal(); fetchInvoices()"
+  />
+}

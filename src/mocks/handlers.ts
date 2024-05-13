@@ -1,5 +1,5 @@
 import { delay, http, HttpResponse } from "msw";
-import type { School } from "../app/types/types";
+import type { Invoice, School } from "../app/types/types";
 
 const schools: School[] = [
   {
@@ -144,7 +144,7 @@ const schools: School[] = [
   },
 ];
 
-const upcomingInvoices = [
+const upcomingInvoices: Invoice[] = [
   {
     id: 1,
     school: { id: 1, name: "St. Mary's Primary School" },
@@ -377,5 +377,16 @@ export const handlers = [
   http.post("http://localhost:3000/invoices/:invoiceId/collect", async () => {
     await delay(1000);
     return HttpResponse.json({ success: true });
+  }),
+
+  http.get("http://localhost:3000/schools/:schoolID/invoices", ({ params }) => {
+    const { schoolID } = params;
+
+    const schoolInvoices = upcomingInvoices.filter(
+      // (invoice) => invoice.school.id === +schoolID,
+      (invoice) => true,
+    );
+
+    return HttpResponse.json(schoolInvoices);
   }),
 ];

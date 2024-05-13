@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Invoice } from "../types/types";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -10,6 +11,12 @@ export class InvoicesService {
 
   getLatestInvoices() {
     return this.http.get<Invoice[]>("http://localhost:3000/upcoming-invoices");
+  }
+
+  getSchoolInvoices(schoolID: number) {
+    return this.http.get<Invoice[]>(
+      `http://localhost:3000/schools/${schoolID}/invoices`,
+    );
   }
 
   collectPayment(invoiceId: number, amountPaid: any) {
