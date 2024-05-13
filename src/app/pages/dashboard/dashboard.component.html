@@ -1,38 +1,42 @@
 <section>
-  <h1>Dashboard</h1>
+  <h1 class="sr-only">Dashboard</h1>
 
   <div class="grid grid-cols-4 gap-4 mb-8">
-    <nz-card [nzBordered]="false" [nzTitle]="'Total Collections Made'">
-      <nz-statistic [nzValue]="100000"></nz-statistic>
+    <nz-card [nzBordered]="false">
+      <nz-statistic nzTitle="Total Collections Made" [nzValue]="(100000 | currency: 'KSH ') ?? '0'"></nz-statistic>
     </nz-card>
-    <nz-card [nzBordered]="false" [nzTitle]="'New Schools Signed Up'">
-      <nz-statistic [nzValue]="35"></nz-statistic>
+
+    <nz-card [nzBordered]="false">
+      <nz-statistic [nzTitle]="'New Schools Signed Up'" [nzValue]="(3500 | number) ?? '0'"></nz-statistic>
     </nz-card>
-    <nz-card [nzBordered]="false" [nzTitle]="'Total Revenue by Product'">
-      <nz-statistic [nzValue]="200000"></nz-statistic>
+
+    <nz-card [nzBordered]="false">
+      <nz-statistic
+        [nzTitle]="'Total Revenue by Product'"
+        [nzValue]="(100000 | currency: 'KSH ') ?? '0'"></nz-statistic>
     </nz-card>
-    <nz-card [nzBordered]="false" [nzTitle]="'Number of Bounced Cheques'">
-      <nz-statistic [nzValue]="55"></nz-statistic>
+
+    <nz-card [nzBordered]="false">
+      <nz-statistic [nzTitle]="'Number of Bounced Cheques'" [nzValue]="(35 | number) ?? '0'"></nz-statistic>
     </nz-card>
   </div>
 
   <div class="mb-8">
-    <h2>Progress Towards Signup Targets</h2>
+    <h2 class="mb-4">Progress Towards Signup Targets</h2>
     <div class="">
       <app-target-chart />
     </div>
   </div>
 
   <div class="mb-8">
-    <h2>Product Signups Distribution Across School Types</h2>
+    <h2 class="mb-4">Product Signups Distribution Across School Types</h2>
     <div class="">
       <app-signup-overview />
     </div>
   </div>
 
-
   <div>
-    <h2>Upcoming Invoices</h2>
+    <h2 class="mb-4">Upcoming Invoices</h2>
     <div class="">
       <app-upcoming-invoices />
     </div>
