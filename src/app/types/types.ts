@@ -43,6 +43,11 @@ export interface SignupDistributionByProduct {
   finance: SignupDistribution;
 }
 
+export interface InvoiceItem {
+name: string;
+  price: number;
+}
+
 export interface Invoice {
   id: number;
   school: {
@@ -52,6 +57,7 @@ export interface Invoice {
   amountDue: number;
   dueDate: Date;
   status: string;
+  items: InvoiceItem[];
 }
 
 export interface Collection {

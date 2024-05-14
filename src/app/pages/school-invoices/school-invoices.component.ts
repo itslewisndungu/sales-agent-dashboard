@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { CurrencyPipe, NgForOf } from "@angular/common";
 import { DatePipe } from "../../pipes/date.pipe";
-import { NzButtonComponent } from "ng-zorro-antd/button";
+import {
+  NzButtonComponent,
+  NzButtonGroupComponent,
+} from "ng-zorro-antd/button";
 import {
   NzTableCellDirective,
   NzTableComponent,
@@ -19,6 +22,12 @@ import { CollectPaymentComponent } from "../../components/collect-payment/collec
 import { Subscription } from "rxjs";
 import { CreateInvoiceComponent } from "../../components/create-invoice/create-invoice.component";
 import { SchoolsService } from "../../services/schools.service";
+import {
+  NzDropdownButtonDirective,
+  NzDropDownDirective,
+  NzDropdownMenuComponent,
+} from "ng-zorro-antd/dropdown";
+import { NzMenuDirective, NzMenuItemComponent } from "ng-zorro-antd/menu";
 
 @Component({
   selector: "app-school-invoices",
@@ -39,6 +48,12 @@ import { SchoolsService } from "../../services/schools.service";
     NzIconDirective,
     CollectPaymentComponent,
     CreateInvoiceComponent,
+    NzButtonGroupComponent,
+    NzDropdownButtonDirective,
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
+    NzMenuDirective,
+    NzMenuItemComponent,
   ],
   templateUrl: "./school-invoices.component.html",
   styleUrl: "./school-invoices.component.css",
@@ -59,11 +74,12 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
     isAddingCollectionToInvoice: false,
   };
 
-  invoiceCreationState: {
-    isCreatingInvoice: boolean;
+  invoiceUpdateCreateState: {
+    status: "idle" | "updating" | "creating";
     selectedSchool?: { name: string; id: number };
+    selectedInvoice?: Invoice;
   } = {
-    isCreatingInvoice: false,
+    status: "idle",
   };
 
   constructor(
@@ -73,9 +89,9 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.route.parent?.params.subscribe(
-      (params) => console.log({params})
-    ))
+    console.log(
+      this.route.parent?.params.subscribe((params) => console.log({ params })),
+    );
     this.fetchInvoices();
   }
 
@@ -98,12 +114,12 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
   }
 
   invoiceSchool() {
-    this.invoiceCreationState = {
-      isCreatingInvoice: true,
+    this.invoiceUpdateCreateState = {
+      status: "creating",
       selectedSchool: {
         name: "Githinji Secondary School",
         id: 1,
-      }
+      },
     };
   }
 
@@ -113,13 +129,26 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnDestroy(): void {
-    this.invoiceSubscription?.unsubscribe();
+  closeInvoiceCreationModal() {
+    this.invoiceUpdateCreateState = {
+      status: "idle",
+    };
   }
 
-  closeInvoiceCreationModal() {
-    this.invoiceCreationState = {
-      isCreatingInvoice: false,
+  handleUpdateInvoice(invoice: Invoice) {
+    this.invoiceUpdateCreateState = {
+      status: "updating",
+      selectedInvoice: invoice,
+      selectedSchool: {
+        name: "Githinji Secondary School",
+        id: 1,
+      },
     };
+  }
+
+  handleDeleteInvoice() {}
+
+  ngOnDestroy(): void {
+    this.invoiceSubscription?.unsubscribe();
   }
 }

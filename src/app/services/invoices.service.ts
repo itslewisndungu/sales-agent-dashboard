@@ -22,6 +22,10 @@ export class InvoicesService {
     return this.http.post("http://localhost:3000/invoices", invoice);
   }
 
+  updateInvoice(invoiceId: number, invoiceData: any) {
+    return this.http.patch(`http://localhost:3000/invoices/${invoiceId}`, invoiceData);
+  }
+
   collectPayment(invoiceId: number, amountPaid: any) {
     console.log(
       "Collecting payment for invoice",

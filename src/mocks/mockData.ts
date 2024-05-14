@@ -6,133 +6,219 @@ const mockCollections = [
     invoiceNumber: "INV-001",
     date: "2024-04-15",
     amount: 50000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Starehe Boys' Centre and School",
     invoiceNumber: "INV-002",
     date: "2024-03-28",
     amount: 35000,
-    status: "bounced"
+    status: "bounced",
   },
-  { schoolName: "Kenya High School", invoiceNumber: "INV-003", date: "2024-05-05", amount: 80000, status: "valid" },
-  { schoolName: "Mangu High School", invoiceNumber: "INV-004", date: "2024-02-10", amount: 25000, status: "valid" },
-  { schoolName: "Maseno School", invoiceNumber: "INV-005", date: "2024-04-22", amount: 60000, status: "Partial" },
+  {
+    schoolName: "Kenya High School",
+    invoiceNumber: "INV-003",
+    date: "2024-05-05",
+    amount: 80000,
+    status: "valid",
+  },
+  {
+    schoolName: "Mangu High School",
+    invoiceNumber: "INV-004",
+    date: "2024-02-10",
+    amount: 25000,
+    status: "valid",
+  },
+  {
+    schoolName: "Maseno School",
+    invoiceNumber: "INV-005",
+    date: "2024-04-22",
+    amount: 60000,
+    status: "Partial",
+  },
   {
     schoolName: "Precious Blood Riruta",
     invoiceNumber: "INV-006",
     date: "2024-01-18",
     amount: 42000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Moi Girls' High School Eldoret",
     invoiceNumber: "INV-007",
     date: "2024-05-10",
     amount: 75000,
-    status: "valid"
+    status: "valid",
   },
-  { schoolName: "Nairobi School", invoiceNumber: "INV-008", date: "2024-03-05", amount: 95000, status: "valid" },
-  { schoolName: "Lenana School", invoiceNumber: "INV-009", date: "2024-04-01", amount: 58000, status: "bounced" },
+  {
+    schoolName: "Nairobi School",
+    invoiceNumber: "INV-008",
+    date: "2024-03-05",
+    amount: 95000,
+    status: "valid",
+  },
+  {
+    schoolName: "Lenana School",
+    invoiceNumber: "INV-009",
+    date: "2024-04-01",
+    amount: 58000,
+    status: "bounced",
+  },
   {
     schoolName: "St. Mary's School Nairobi",
     invoiceNumber: "INV-010",
     date: "2024-02-25",
     amount: 120000,
-    status: "valid"
+    status: "valid",
   },
-  { schoolName: "The Banda School", invoiceNumber: "INV-011", date: "2023-12-15", amount: 18000, status: "valid" },
-  { schoolName: "Brookhouse School", invoiceNumber: "INV-012", date: "2024-01-22", amount: 78000, status: "bounced" },
+  {
+    schoolName: "The Banda School",
+    invoiceNumber: "INV-011",
+    date: "2023-12-15",
+    amount: 18000,
+    status: "valid",
+  },
+  {
+    schoolName: "Brookhouse School",
+    invoiceNumber: "INV-012",
+    date: "2024-01-22",
+    amount: 78000,
+    status: "bounced",
+  },
   {
     schoolName: "Greensteds International School",
     invoiceNumber: "INV-013",
     date: "2024-03-10",
     amount: 92000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Hillcrest International School",
     invoiceNumber: "INV-014",
     date: "2023-11-30",
     amount: 65000,
-    status: "valid"
+    status: "valid",
   },
-  { schoolName: "Peponi School", invoiceNumber: "INV-015", date: "2024-04-08", amount: 32000, status: "valid" },
-  { schoolName: "Braeburn School", invoiceNumber: "INV-016", date: "2023-12-28", amount: 56000, status: "valid" },
+  {
+    schoolName: "Peponi School",
+    invoiceNumber: "INV-015",
+    date: "2024-04-08",
+    amount: 32000,
+    status: "valid",
+  },
+  {
+    schoolName: "Braeburn School",
+    invoiceNumber: "INV-016",
+    date: "2023-12-28",
+    amount: 56000,
+    status: "valid",
+  },
   {
     schoolName: "GEMS Cambridge International School",
     invoiceNumber: "INV-017",
     date: "2024-02-05",
     amount: 88000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Riara Group of Schools",
     invoiceNumber: "INV-018",
     date: "2024-05-12",
     amount: 40000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "St. Christopher's School",
     invoiceNumber: "INV-019",
     date: "2024-01-08",
     amount: 28000,
-    status: "bounced"
+    status: "bounced",
   },
   {
     schoolName: "The Aga Khan Academy Mombasa",
     invoiceNumber: "INV-020",
     date: "2023-11-20",
     amount: 115000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Alliance High School",
     invoiceNumber: "INV-021",
     date: "2023-10-25",
     amount: 48000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Starehe Boys' Centre and School",
     invoiceNumber: "INV-022",
     date: "2024-02-18",
     amount: 30000,
-    status: "valid"
+    status: "valid",
   },
-  { schoolName: "Kenya High School", invoiceNumber: "INV-023", date: "2023-12-02", amount: 72000, status: "valid" },
-  { schoolName: "Mangu High School", invoiceNumber: "INV-024", date: "2024-03-15", amount: 22000, status: "bounced" },
-  { schoolName: "Maseno School", invoiceNumber: "INV-025", date: "2023-11-12", amount: 68000, status: "valid" },
+  {
+    schoolName: "Kenya High School",
+    invoiceNumber: "INV-023",
+    date: "2023-12-02",
+    amount: 72000,
+    status: "valid",
+  },
+  {
+    schoolName: "Mangu High School",
+    invoiceNumber: "INV-024",
+    date: "2024-03-15",
+    amount: 22000,
+    status: "bounced",
+  },
+  {
+    schoolName: "Maseno School",
+    invoiceNumber: "INV-025",
+    date: "2023-11-12",
+    amount: 68000,
+    status: "valid",
+  },
   {
     schoolName: "Precious Blood Riruta",
     invoiceNumber: "INV-026",
     date: "2024-04-28",
     amount: 45000,
-    status: "valid"
+    status: "valid",
   },
   {
     schoolName: "Moi Girls' High School Eldoret",
     invoiceNumber: "INV-027",
     date: "2023-09-30",
     amount: 70000,
-    status: "valid"
+    status: "valid",
   },
-  { schoolName: "Nairobi School", invoiceNumber: "INV-028", date: "2024-01-15", amount: 98000, status: "valid" },
-  { schoolName: "Lenana School", invoiceNumber: "INV-029", date: "2024-03-22", amount: 62000, status: "bounced" },
+  {
+    schoolName: "Nairobi School",
+    invoiceNumber: "INV-028",
+    date: "2024-01-15",
+    amount: 98000,
+    status: "valid",
+  },
+  {
+    schoolName: "Lenana School",
+    invoiceNumber: "INV-029",
+    date: "2024-03-22",
+    amount: 62000,
+    status: "bounced",
+  },
   {
     schoolName: "St. Mary's School Nairobi",
     invoiceNumber: "INV-030",
     date: "2023-10-10",
     amount: 110000,
-    status: "valid"
-  }
+    status: "valid",
+  },
 ];
 
-export const mockCollectionsWithIds = mockCollections.map((collection, index) => ({
-  ...collection,
-  id: index + 1,
-}));
+export const mockCollectionsWithIds = mockCollections.map(
+  (collection, index) => ({
+    ...collection,
+    id: index + 1,
+  }),
+);
 
 export const mockSchools: School[] = [
   {
@@ -277,7 +363,7 @@ export const mockSchools: School[] = [
   },
 ];
 
-export const mockUpcomingInvoices: Invoice[] = [
+export const mockUpcomingInvoicesWithoutItems = [
   {
     id: 1,
     school: { id: 1, name: "St. Mary's Primary School" },
@@ -490,5 +576,16 @@ export const mockUpcomingInvoices: Invoice[] = [
   },
 ];
 
+export const mockUpcomingInvoices: Invoice[] =
+  mockUpcomingInvoicesWithoutItems.map((invoice) => {
+    const products = ["Zeraki Analytics", "Zeraki Timetable", "Zeraki Finance"];
+    const items = products.map((product) => ({
+      name: product,
+      price: Math.floor(Math.random() * 10000), // Random price between 0 and 9999
+    }));
 
-
+    return {
+      ...invoice,
+      items,
+    };
+  });

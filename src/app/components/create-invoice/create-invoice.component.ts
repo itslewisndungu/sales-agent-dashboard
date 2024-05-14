@@ -21,6 +21,7 @@ import {
   NzModalContentDirective,
   NzModalFooterDirective,
 } from "ng-zorro-antd/modal";
+import { Invoice, InvoiceItem } from "../../types/types";
 
 @Component({
   selector: "app-create-invoice",
@@ -44,14 +45,17 @@ import {
   styles: [``],
 })
 export class CreateInvoiceComponent implements OnInit {
+  @Input() invoice?: Invoice;
   @Input() school?: { id: number; name: string };
   @Input() isVisible = false;
 
   @Output() invoiceCreationSuccess = new EventEmitter<void>();
   @Output() invoiceCreationCancelled = new EventEmitter<void>();
 
+  modalTitle = "Create Invoice";
   invoiceForm!: FormGroup;
   isSubmitting = false;
+  isEditMode = false;
 
   constructor(
     private fb: FormBuilder,
@@ -60,31 +64,56 @@ export class CreateInvoiceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isEditMode = !!this.invoice;
+    this.modalTitle = this.isEditMode ? "Edit Invoice" : "Create Invoice";
+    this.createForm();
+  }
+
+  createForm() {
     this.invoiceForm = this.fb.group({
       school: [this.school?.name, Validators.required],
       invoiceNumber: [
-        this.invoiceService.generateRandomInvoiceNumber(),
-        Validators.required,
+        this.invoice?.id || this.invoiceService.generateRandomInvoiceNumber(),
       ],
-      dueDate: [null, Validators.required],
-      items: this.fb.array([this.createItem()]),
+      dueDate: [this.invoice?.dueDate || null, Validators.required],
+      items: this.fb.array(this.getInitialItems()),
     });
   }
 
   submitForm() {
     if (this.invoiceForm.valid) {
       this.isSubmitting = true;
-      this.invoiceService.createInvoice(this.invoiceForm.value).subscribe({
-        next: () => {
-          this.message.success("Invoice created successfully!");
-          this.invoiceCreationSuccess.emit();
-        },
-        error: (err) => {
-          console.error("Error creating invoice:", err);
-          this.message.error("Failed to create invoice");
-          this.isSubmitting = false;
-        },
-      });
+      const invoiceData: Invoice = {
+        ...this.invoiceForm.value,
+        items: this.invoiceForm.value.items as InvoiceItem[],
+      };
+
+      if (this.isEditMode) {
+        this.invoiceService
+          .updateInvoice(this.invoice!.id, invoiceData)
+          .subscribe({
+            next: () => this.handleSuccess("Invoice updated successfully!"),
+            error: (err) => this.handleError("Failed to update invoice", err),
+          });
+      } else {
+        this.invoiceService.createInvoice(invoiceData).subscribe({
+          next: () => this.handleSuccess("Invoice created successfully!"),
+          error: (err) => this.handleError("Failed to create invoice", err),
+        });
+      }
+    }
+  }
+
+  getInitialItems(): FormGroup[] {
+    if (this.invoice && this.invoice.items) {
+      return this.invoice.items.map((item) =>
+        this.fb.group({
+          name: [item.name, Validators.required],
+          price: [item.price, [Validators.required, Validators.min(0)]],
+        }),
+      );
+    } else {
+      return [this.createItem()]; // Start with one empty item in create mode
     }
   }
 
@@ -109,5 +138,16 @@ export class CreateInvoiceComponent implements OnInit {
 
   removeItem(index: number) {
     this.items.removeAt(index);
+  }
+
+  handleSuccess(message: string) {
+    this.message.success(message);
+    this.invoiceCreationSuccess.emit();
+  }
+
+  handleError(message: string, error: any) {
+    console.error(message, error);
+    this.message.error(message);
+    this.isSubmitting = false;
   }
 }

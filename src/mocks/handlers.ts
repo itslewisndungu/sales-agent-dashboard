@@ -27,6 +27,28 @@ export const handlers = [
     return HttpResponse.json({ success: true });
   }),
 
+  http.patch<{ invoiceId: string }>(
+    "http://localhost:3000/invoices/:invoiceId",
+    async ({ request, params }) => {
+      const { invoiceId } = params;
+
+      // const invoice = mockUpcomingInvoices.find(
+      //   // (invoice) => invoice.id === +invoiceId,
+      // );
+      //
+      // if (!invoice) {
+      //   return res(ctx.status(404));
+      // }
+      //
+      // invoice.status = status;
+      //
+      // return res(ctx.json(invoice));
+
+      await delay(1000);
+      return HttpResponse.json({ success: true });
+    },
+  ),
+
   http.post("http://localhost:3000/invoices/:invoiceId/collect", async () => {
     await delay(1000);
     return HttpResponse.json({ success: true });

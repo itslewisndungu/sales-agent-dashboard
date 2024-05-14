@@ -37,9 +37,22 @@
       </nz-tag>
     </td>
     <td>
-      <button nz-button nzType="primary" nzSize="small" (click)="collectPayment(invoice)">
-        Collect Payment
-      </button>
+      <nz-button-group>
+        <button nz-button nzType="primary" nzSize="small" (click)="collectPayment(invoice)">
+          Collect Payment
+        </button>
+
+        <button nzSize="small" nz-button nz-dropdown [nzDropdownMenu]="menu1" nzPlacement="bottomRight">
+          <span nz-icon nzType="down"></span>
+        </button>
+
+        <nz-dropdown-menu #menu1="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item (click)="handleUpdateInvoice(invoice)">Update Invoice</li>
+            <li nz-menu-item  (click)="handleDeleteInvoice()">Delete Invoice</li>
+          </ul>
+        </nz-dropdown-menu>
+      </nz-button-group>
     </td>
   </tr>
   </tbody>
@@ -55,10 +68,11 @@
   />
 }
 
-@if (invoiceCreationState.isCreatingInvoice) {
+@if (invoiceUpdateCreateState.status !== 'idle'){
   <app-create-invoice
-    [isVisible]="invoiceCreationState.isCreatingInvoice"
-    [school]="invoiceCreationState.selectedSchool"
+    [isVisible]="true"
+    [school]="invoiceUpdateCreateState.selectedSchool"
+    [invoice]="invoiceUpdateCreateState.selectedInvoice"
     (invoiceCreationCancelled)="closeInvoiceCreationModal()"
     (invoiceCreationSuccess)="closeInvoiceCreationModal(); fetchInvoices()"
   />
