@@ -28,6 +28,8 @@ import {
   NzDropdownMenuComponent,
 } from "ng-zorro-antd/dropdown";
 import { NzMenuDirective, NzMenuItemComponent } from "ng-zorro-antd/menu";
+import { NzModalService } from "ng-zorro-antd/modal";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Component({
   selector: "app-school-invoices",
@@ -86,6 +88,8 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
     readonly invoiceService: InvoicesService,
     readonly schoolService: SchoolsService,
     readonly route: ActivatedRoute,
+    readonly modal: NzModalService,
+    readonly message: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -146,7 +150,34 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
     };
   }
 
-  handleDeleteInvoice() {}
+  handleDeleteInvoice(invoice: Invoice) {
+    this.modal.confirm({
+      nzTitle: "Are you sure delete this invoice?",
+      nzContent: `<p class="text-gray-600""> This action will delete the invoice and is irreversible. Deleting this invoice will remove it from the system. </p>`,
+      nzOkText: "Delete Invoice",
+      nzOkType: "primary",
+      nzOkDanger: true,
+      nzOnOk: () => {
+        let ref = this.message.loading("Deleting invoice...", { nzDuration: 0 }).messageId
+
+        this.invoiceService.deleteInvoice(invoice.id).subscribe({
+          next: () => {
+            this.message.remove(ref)
+            this.message.success("Invoice deleted successfully");
+            this.fetchInvoices();
+          },
+          error: () => {
+            this.modal.error({
+              nzTitle: "An error occurred",
+              nzContent:
+                "An error occurred while deleting the invoice. Please try again.",
+            });
+          },
+        })
+      },
+      nzCancelText: "Cancel",
+    });
+  }
 
   ngOnDestroy(): void {
     this.invoiceSubscription?.unsubscribe();

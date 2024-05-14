@@ -49,10 +49,16 @@ export const handlers = [
     },
   ),
 
+  http.delete("http://localhost:3000/invoices/:invoiceId", async () => {
+    await delay(1000);
+    return HttpResponse.json({ success: true });
+  }),
+
   http.post("http://localhost:3000/invoices/:invoiceId/collect", async () => {
     await delay(1000);
     return HttpResponse.json({ success: true });
   }),
+
 
   http.get("http://localhost:3000/schools/:schoolID/invoices", ({ params }) => {
     const { schoolID } = params;

@@ -45,4 +45,8 @@ export class InvoicesService {
   generateRandomInvoiceNumber() {
     return Math.floor(Math.random() * 10000);
   }
+
+  deleteInvoice(id: number) {
+    return this.http.delete(`http://localhost:3000/invoices/${id}`);
+  }
 }
