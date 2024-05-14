@@ -1,19 +1,27 @@
 <nz-layout class="app-layout overflow-hidden">
-  <nz-sider class="menu-sidebar"
-            nzCollapsible
-            nzWidth="256px"
-            nzBreakpoint="md"
-            [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <img
           src="https://static.wixstatic.com/media/3288de_23acca07f1e14d38a6e8aa735043b3a4%7Emv2.jpg/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/3288de_23acca07f1e14d38a6e8aa735043b3a4%7Emv2.jpg"
-          alt="logo">
+          alt="logo"
+        />
         <h1>Zeraki Management System</h1>
       </a>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -32,17 +40,22 @@
   </nz-sider>
   <nz-layout class="overflow-y-auto overflow-x-hidden">
     <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <span class="trigger"
-                  nz-icon
-                  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            ></span>
+      <div class="app-header flex items-center justify-between">
+        <span class="header-trigger flex items-center" (click)="isCollapsed = !isCollapsed">
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
+        </span>
+
+        <span class="px-5">
+            <nz-avatar nzSize="large" nzIcon="user" class="header-avatar"></nz-avatar>
         </span>
       </div>
     </nz-header>
     <nz-content>
-      <div >
+      <div>
         <router-outlet></router-outlet>
       </div>
     </nz-content>

@@ -27,23 +27,6 @@ export class TargetChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild("financeChartCanvas")
   financeChartEl?: ElementRef<HTMLCanvasElement>;
 
-  // todo: replace with actual data from a service
-  analyticsData = {
-    labels: [
-      "Target Achieved",
-      "Remaining Target"
-    ],
-    datasets: [{
-      label: "My First Dataset",
-      data: [60, 40], // Replace with actual data
-      backgroundColor: [
-        "rgb(54, 162, 235)",
-        "rgb(255, 205, 86)"
-      ],
-      hoverOffset: 4
-    }]
-  };
-
   ngAfterViewInit(): void {
     this.createCharts();
   };
