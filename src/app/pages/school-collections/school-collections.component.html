@@ -4,37 +4,11 @@
   </h2>
 </div>
 
-<nz-table #collectionsTable [nzData]="collections" [nzLoading]="fetchingCollections">
-  <thead>
-  <tr>
-    <th>Collection ID</th>
-    <th>Invoice Number</th>
-    <th>Collection Date</th>
-    <th>Amount</th>
-    <th>Status</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-
-  <tr *ngFor="let collection of collectionsTable.data">
-    <td>COLL-{{ collection.id }}</td>
-    <td>{{ collection.invoiceNumber }}</td>
-    <td>{{ collection.date | date }}</td>
-    <td>{{ collection.amount | currency:'KES ':'symbol-narrow':'1.2-2' }}</td>
-    <td>
-      <nz-tag class="capitalize" [nzColor]="collection.status === 'valid' ? 'blue' : 'warning'">
-        {{ collection.status }}
-      </nz-tag>
-    </td>
-    <td>
-      <button nz-button nzType="primary" nzSize="small" (click)="updateCollectionStatus(collection)">
-        Update Status
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</nz-table>
+<app-collections-list
+  [collections]="collections"
+  [loading]="fetchingCollections"
+  (updateCollectionStatus)="updateCollectionStatus($event)"
+></app-collections-list>
 
 @if (updatingCollectionState.isUpdating && updatingCollectionState.selectedCollection) {
   <!--    If the above if statement is true, then this is visible-->

@@ -30,6 +30,7 @@ import {
 import { NzMenuDirective, NzMenuItemComponent } from "ng-zorro-antd/menu";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { InvoiceListComponent } from "../../components/invoice-list/invoice-list.component";
 
 @Component({
   selector: "app-school-invoices",
@@ -56,6 +57,7 @@ import { NzMessageService } from "ng-zorro-antd/message";
     NzDropdownMenuComponent,
     NzMenuDirective,
     NzMenuItemComponent,
+    InvoiceListComponent,
   ],
   templateUrl: "./school-invoices.component.html",
   styleUrl: "./school-invoices.component.css",
@@ -158,11 +160,13 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
       nzOkType: "primary",
       nzOkDanger: true,
       nzOnOk: () => {
-        let ref = this.message.loading("Deleting invoice...", { nzDuration: 0 }).messageId
+        let ref = this.message.loading("Deleting invoice...", {
+          nzDuration: 0,
+        }).messageId;
 
         this.invoiceService.deleteInvoice(invoice.id).subscribe({
           next: () => {
-            this.message.remove(ref)
+            this.message.remove(ref);
             this.message.success("Invoice deleted successfully");
             this.fetchInvoices();
           },
@@ -173,7 +177,7 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
                 "An error occurred while deleting the invoice. Please try again.",
             });
           },
-        })
+        });
       },
       nzCancelText: "Cancel",
     });

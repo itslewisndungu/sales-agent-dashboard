@@ -5,75 +5,35 @@
 
   <button nz-button nzType="primary" (click)="invoiceSchool()">
     Add Invoice
-
     <span class="ml-2">
       <i nz-icon nzType="plus"></i>
     </span>
   </button>
 </div>
 
-<nz-table #basicTable [nzData]="invoices" [nzLoading]="fetchingInvoices">
-  <thead>
-  <tr>
-    <th>Invoice ID</th>
-    <th>Amount Due</th>
-    <th>Due Date</th>
-    <th>Status</th>
-    <th>Action</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let invoice of basicTable.data">
-    <td>
-      <a nz-button nzType="link" [routerLink]="[invoice.id]">
-        {{ invoice.id }}
-      </a>
-    </td>
-    <td>{{ invoice.amountDue | currency: 'KSH ' }}</td>
-    <td>{{ invoice.dueDate | date }}</td>
-    <td>
-      <nz-tag [nzColor]="invoice.status === 'pending' ? 'orange' : 'green'" class="capitalize">
-        {{ invoice.status }}
-      </nz-tag>
-    </td>
-    <td>
-      <nz-button-group>
-        <button nz-button nzType="primary" nzSize="small" (click)="collectPayment(invoice)">
-          Collect Payment
-        </button>
+<app-invoice-list
+  [invoices]="invoices"
+  [loading]="fetchingInvoices"
+  (collectInvoicePayment)="collectPayment($event)"
+  (updateInvoice)="handleUpdateInvoice($event)"
+  (deleteInvoice)="handleDeleteInvoice($event)"
+></app-invoice-list>
 
-        <button nzSize="small" nz-button nz-dropdown [nzDropdownMenu]="menu1" nzPlacement="bottomRight">
-          <span nz-icon nzType="down"></span>
-        </button>
-
-        <nz-dropdown-menu #menu1="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item (click)="handleUpdateInvoice(invoice)">Update Invoice</li>
-            <li nz-menu-item  (click)="handleDeleteInvoice(invoice)">Delete Invoice</li>
-          </ul>
-        </nz-dropdown-menu>
-      </nz-button-group>
-    </td>
-  </tr>
-  </tbody>
-</nz-table>
-
-<!-- This is to make the compiler happy-->
 @if (invoicePaymentCollectionState.isAddingCollectionToInvoice) {
   <app-collect-payment
     [isVisible]="invoicePaymentCollectionState.isAddingCollectionToInvoice"
     [invoice]="invoicePaymentCollectionState.selectedInvoice"
     (paymentCollectionCancelled)="closePaymentCollectionModal()"
     (paymentCollectionSuccessful)="closePaymentCollectionModal(); fetchInvoices()"
-  />
+  ></app-collect-payment>
 }
 
-@if (invoiceUpdateCreateState.status !== 'idle'){
+@if (invoiceUpdateCreateState.status !== 'idle') {
   <app-create-invoice
     [isVisible]="true"
     [school]="invoiceUpdateCreateState.selectedSchool"
     [invoice]="invoiceUpdateCreateState.selectedInvoice"
     (invoiceCreationCancelled)="closeInvoiceCreationModal()"
     (invoiceCreationSuccess)="closeInvoiceCreationModal(); fetchInvoices()"
-  />
+  ></app-create-invoice>
 }

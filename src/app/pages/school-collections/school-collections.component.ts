@@ -11,6 +11,7 @@ import { Collection } from "../../types/types";
 import { Subscription, switchMap } from "rxjs";
 import { UpdateCollectionStatusComponent } from "../../components/update-collection-status/update-collection-status.component";
 import { NzModalModule, NzModalService } from "ng-zorro-antd/modal";
+import { CollectionsListComponent } from "../../components/collections-list/collections-list.component";
 
 @Component({
   selector: "app-school-collections",
@@ -25,6 +26,7 @@ import { NzModalModule, NzModalService } from "ng-zorro-antd/modal";
     NzIconDirective,
     UpdateCollectionStatusComponent,
     NzModalModule,
+    CollectionsListComponent,
   ],
   templateUrl: "./school-collections.component.html",
   styleUrl: "./school-collections.component.css",
