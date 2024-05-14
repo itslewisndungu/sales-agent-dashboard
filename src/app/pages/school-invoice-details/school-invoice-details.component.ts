@@ -6,6 +6,8 @@ import { NzTableModule } from "ng-zorro-antd/table";
 import { NzTagComponent } from "ng-zorro-antd/tag";
 import { NzDescriptionsModule } from "ng-zorro-antd/descriptions";
 import { CollectionsService } from "../../services/collections.service";
+import { ActivatedRoute } from "@angular/router";
+import { Collection } from "../../types/types";
 
 @Component({
   selector: "app-school-invoice-details",
@@ -17,18 +19,30 @@ import { CollectionsService } from "../../services/collections.service";
     NzButtonComponent,
     NzTableModule,
     NzTagComponent,
-    NzDescriptionsModule
+    NzDescriptionsModule,
   ],
   templateUrl: "./school-invoice-details.component.html",
-  styleUrl: "./school-invoice-details.component.css"
+  styleUrl: "./school-invoice-details.component.css",
 })
 export class SchoolInvoiceDetailsComponent implements OnInit {
-  collections: any;
+  collections: Collection[] = [];
 
-  constructor(readonly collectionsService: CollectionsService) {
-  }
+  constructor(
+    readonly collectionsService: CollectionsService,
+    readonly route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
-    this.collections = this.collectionsService.getInvoiceCollections(1);
+    let invoiceId = this.route.snapshot.params["id"];
+
+    this.collectionsService.getInvoiceCollections(invoiceId).subscribe({
+      next: (data: any) => {
+        this.collections = data;
+      },
+      error: (error: any) => {
+        this.collections = [];
+        console.error("Error: ", error);
+      },
+    });
   }
 }

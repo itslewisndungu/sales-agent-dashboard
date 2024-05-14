@@ -41,7 +41,7 @@
       <td>{{ collection.amount | currency:'KES ':'symbol-narrow':'1.2-2' }}</td>
       <td>
         <nz-tag
-          [nzColor]="collection.status === 'Valid' ? 'green' : (collection.status === 'Bounced' ? 'red' : 'blue')">
+          [nzColor]="collection.status === 'valid' ? 'green' : 'warning'">
           {{ collection.status }}
         </nz-tag>
       </td>
