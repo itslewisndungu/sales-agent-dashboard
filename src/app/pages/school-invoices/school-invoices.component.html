@@ -54,3 +54,12 @@
     (paymentCollectionSuccessful)="closePaymentCollectionModal(); fetchInvoices()"
   />
 }
+
+@if (invoiceCreationState.isCreatingInvoice) {
+  <app-create-invoice
+    [isVisible]="invoiceCreationState.isCreatingInvoice"
+    [school]="invoiceCreationState.selectedSchool"
+    (invoiceCreationCancelled)="closeInvoiceCreationModal()"
+    (invoiceCreationSuccess)="closeInvoiceCreationModal(); fetchInvoices()"
+  />
+}

@@ -1,5 +1,9 @@
 import { delay, http, HttpResponse } from "msw";
-import { mockCollections, mockSchools, mockUpcomingInvoices } from "./mockData";
+import {
+  mockCollectionsWithIds,
+  mockSchools,
+  mockUpcomingInvoices,
+} from "./mockData";
 
 export const handlers = [
   http.get("http://localhost:3000/schools", () => {
@@ -16,6 +20,11 @@ export const handlers = [
         )
         .slice(0, 10),
     );
+  }),
+
+  http.post("http://localhost:3000/invoices", async () => {
+    await delay(1000);
+    return HttpResponse.json({ success: true });
   }),
 
   http.post("http://localhost:3000/invoices/:invoiceId/collect", async () => {
@@ -44,7 +53,7 @@ export const handlers = [
         (invoice) => true,
       );
 
-      return HttpResponse.json(mockCollections);
+      return HttpResponse.json(mockCollectionsWithIds);
     },
   ),
 
@@ -53,7 +62,9 @@ export const handlers = [
     ({ params }) => {
       const { invoiceNumber } = params;
 
-      const invoiceCollections = mockCollections.filter((collection) => true);
+      const invoiceCollections = mockCollectionsWithIds.filter(
+        (collection) => true,
+      );
 
       return HttpResponse.json(invoiceCollections);
     },

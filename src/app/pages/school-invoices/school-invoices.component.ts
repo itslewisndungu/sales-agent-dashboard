@@ -11,12 +11,14 @@ import {
   NzTrDirective,
 } from "ng-zorro-antd/table";
 import { NzTagComponent } from "ng-zorro-antd/tag";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { NzIconDirective } from "ng-zorro-antd/icon";
 import { InvoicesService } from "../../services/invoices.service";
 import { Invoice } from "../../types/types";
 import { CollectPaymentComponent } from "../../components/collect-payment/collect-payment.component";
 import { Subscription } from "rxjs";
+import { CreateInvoiceComponent } from "../../components/create-invoice/create-invoice.component";
+import { SchoolsService } from "../../services/schools.service";
 
 @Component({
   selector: "app-school-invoices",
@@ -36,6 +38,7 @@ import { Subscription } from "rxjs";
     NzTrDirective,
     NzIconDirective,
     CollectPaymentComponent,
+    CreateInvoiceComponent,
   ],
   templateUrl: "./school-invoices.component.html",
   styleUrl: "./school-invoices.component.css",
@@ -56,9 +59,23 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
     isAddingCollectionToInvoice: false,
   };
 
-  constructor(readonly invoiceService: InvoicesService) {}
+  invoiceCreationState: {
+    isCreatingInvoice: boolean;
+    selectedSchool?: { name: string; id: number };
+  } = {
+    isCreatingInvoice: false,
+  };
+
+  constructor(
+    readonly invoiceService: InvoicesService,
+    readonly schoolService: SchoolsService,
+    readonly route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
+    console.log(this.route.parent?.params.subscribe(
+      (params) => console.log({params})
+    ))
     this.fetchInvoices();
   }
 
@@ -81,7 +98,13 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
   }
 
   invoiceSchool() {
-    console.log("Invoicing school");
+    this.invoiceCreationState = {
+      isCreatingInvoice: true,
+      selectedSchool: {
+        name: "Githinji Secondary School",
+        id: 1,
+      }
+    };
   }
 
   closePaymentCollectionModal() {
@@ -92,5 +115,11 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.invoiceSubscription?.unsubscribe();
+  }
+
+  closeInvoiceCreationModal() {
+    this.invoiceCreationState = {
+      isCreatingInvoice: false,
+    };
   }
 }

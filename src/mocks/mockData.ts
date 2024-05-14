@@ -1,6 +1,6 @@
 import type { Invoice, School } from "../app/types/types";
 
-export const mockCollections = [
+const mockCollections = [
   {
     schoolName: "Alliance High School",
     invoiceNumber: "INV-001",
@@ -128,6 +128,11 @@ export const mockCollections = [
     status: "valid"
   }
 ];
+
+export const mockCollectionsWithIds = mockCollections.map((collection, index) => ({
+  ...collection,
+  id: index + 1,
+}));
 
 export const mockSchools: School[] = [
   {

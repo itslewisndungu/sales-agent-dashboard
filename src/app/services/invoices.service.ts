@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Invoice } from "../types/types";
-import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -19,6 +18,10 @@ export class InvoicesService {
     );
   }
 
+  createInvoice(invoice: any) {
+    return this.http.post("http://localhost:3000/invoices", invoice);
+  }
+
   collectPayment(invoiceId: number, amountPaid: any) {
     console.log(
       "Collecting payment for invoice",
@@ -33,5 +36,9 @@ export class InvoicesService {
         amountPaid,
       },
     );
+  }
+
+  generateRandomInvoiceNumber() {
+    return Math.floor(Math.random() * 10000);
   }
 }

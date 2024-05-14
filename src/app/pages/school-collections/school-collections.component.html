@@ -17,8 +17,8 @@
   </thead>
   <tbody>
 
-  <tr *ngFor="let collection of collectionsTable.data; index as id">
-    <td>COLL-{{ id }}</td>
+  <tr *ngFor="let collection of collectionsTable.data">
+    <td>COLL-{{ collection.id }}</td>
     <td>{{ collection.invoiceNumber }}</td>
     <td>{{ collection.date | date }}</td>
     <td>{{ collection.amount | currency:'KES ':'symbol-narrow':'1.2-2' }}</td>

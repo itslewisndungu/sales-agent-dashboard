@@ -1,0 +1,68 @@
+<nz-modal nzWidth="750px" [(nzVisible)]="isVisible" nzTitle="Create Invoice" (nzOnCancel)="cancel()" (nzOnOk)="submitForm()">
+  <ng-template nzModalContent>
+    <form class="max-w-2xl" nz-form [formGroup]="invoiceForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="school">School</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="school" id="school" readonly />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="invoiceNumber">Invoice Number</nz-form-label>
+
+        <nz-form-control>
+          <input nz-input formControlName="invoiceNumber" id="invoiceNumber" readonly />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24"  nzFor="dueDate">Due Date</nz-form-label>
+        <nz-form-control nzErrorTip="Please select a due date.">
+          <nz-date-picker formControlName="dueDate" id="dueDate"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngFor="let item of items.controls; let i=index">
+        <nz-form-label [nzSm]="4" [nzXs]="24"  nzFor="item.name">Product {{ i + 1 }}</nz-form-label>
+
+        <nz-form-control>
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="12">
+              <nz-select formControlName="name">
+                <nz-option nzValue="Zeraki Analytics" nzLabel="Zeraki Analytics"></nz-option>
+                <nz-option nzValue="Zeraki Finance" nzLabel="Zeraki Finance"></nz-option>
+                <nz-option nzValue="Zeraki Timetable" nzLabel="Zeraki Timetable"></nz-option>
+              </nz-select>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-label nzFor="quantity">Amount</nz-form-label>
+              <nz-input-number formControlName="price" [nzMin]="0" [nzStep]="0.01"></nz-input-number>
+            </div>
+
+            <div nz-col nzSpan="4">
+              <button type="button" nz-button nzType="text" nzDanger (click)="removeItem(i)">
+                <i nz-icon nzType="delete"></i>
+                <span class="sr-only">Remove Item</span>
+              </button>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="ml-28" >
+        <button type="button"  nz-button nzType="dashed" (click)="addItem()">
+          <i nz-icon nzType="plus"></i> Add Invoice Item
+        </button>
+      </nz-form-item>
+    </form>
+  </ng-template>
+
+  <ng-template nzModalFooter>
+    <button nz-button nzType="default" (click)="cancel()">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="!invoiceForm.valid" [nzLoading]="isSubmitting"
+            (click)="submitForm()">Create Invoice
+    </button>
+  </ng-template>
+</nz-modal>

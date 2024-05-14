@@ -14,4 +14,8 @@ export class SchoolsService {
   getAllSchoolsList() {
     return this.http.get<School[]>(this.URL);
   }
+
+  getSchoolById(schoolId: number) {
+    return "Githinji Secondary School"
+  }
 }

@@ -62,7 +62,7 @@ export class UpdateCollectionStatusComponent implements OnInit {
       this.updateCollectionStatus = true;
       this.collectonService
         .updateCollectionStatus(
-          this.collection.invoiceNumber,
+          this.collection.id,
           this.collectionForm.value.newStatus,
         )
         .subscribe(() => {
