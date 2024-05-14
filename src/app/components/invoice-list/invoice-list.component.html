@@ -1,10 +1,13 @@
-<nz-table #basicTable [nzData]="invoices" [nzLoading]="loading">
+<nz-table #basicTable [nzData]="filteredInvoices" [nzLoading]="loading">
   <thead>
   <tr>
     <th>Invoice ID</th>
     <th nzColumnKey="amountDue" [nzSortFn]="sortAmountDue">Amount Due</th>
     <th nzColumnKey="dueDate" [nzSortFn]="sortDueDate">Due Date</th>
-    <th nzColumnKey="status" [nzSortFn]="sortStatus">Status</th>
+    <th nzColumnKey="status" [nzSortFn]="sortStatus"
+        [nzFilters]="statusFilterOptions"
+        (nzFilterChange)="filterStatus($event)"
+    >Status</th>
     <th>Action</th>
   </tr>
   </thead>

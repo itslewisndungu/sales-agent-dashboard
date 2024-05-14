@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input, OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from "@angular/core";
 import { CurrencyPipe, NgForOf } from "@angular/common";
 import { DatePipe } from "../../pipes/date.pipe";
 import {
@@ -35,15 +42,33 @@ import { NzIconDirective } from "ng-zorro-antd/icon";
     NzMenuItemComponent,
   ],
   templateUrl: "./invoice-list.component.html",
-  styleUrl: "./invoice-list.component.css",
 })
-export class InvoiceListComponent {
+export class InvoiceListComponent implements OnChanges {
   @Input() invoices: Invoice[] = [];
   @Input() loading: boolean = false;
 
   @Output() updateInvoice = new EventEmitter<Invoice>();
   @Output() deleteInvoice = new EventEmitter<Invoice>();
   @Output() collectInvoicePayment = new EventEmitter<Invoice>();
+
+  filteredInvoices: Invoice[] = [];
+  statusFilterOptions = [
+    { text: "Pending", value: "pending" },
+    { text: "Completed", value: "completed" },
+  ];
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["invoices"]) {
+      this.filteredInvoices = this.invoices; // Initialize filtered data
+    }
+  }
+
+  filterStatus(selectedValues: string[]): void {
+    this.filteredInvoices = this.invoices.filter(
+      (invoice) => selectedValues.length === 0 || selectedValues.includes(invoice.status),
+    );
+  }
 
   collectPayment(invoice: Invoice) {
     this.collectInvoicePayment.emit(invoice);

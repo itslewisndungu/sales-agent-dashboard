@@ -42,9 +42,10 @@ export class CollectionsListComponent implements OnChanges {
     this.updateCollectionStatus.emit(collection);
   }
 
+  // Initialize filtered data when the input data changes
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["collections"]) {
-      this.filteredCollections = this.collections; // Initialize filtered data
+      this.filteredCollections = this.collections;
     }
   }
 

@@ -2,8 +2,9 @@ import {
   Collection,
   Invoice,
   InvoiceItem,
-  School, SchoolType,
-  ZerakiProduct
+  School,
+  SchoolType,
+  ZerakiProduct,
 } from "../app/types/types";
 
 const products: ZerakiProduct[] = [
@@ -183,18 +184,29 @@ function getRandomInvoiceItems(): InvoiceItem[] {
   }));
 }
 
-export const INVOICES: Invoice[] = SCHOOLS.map((school, i) => ({
-  id: i + 1,
-  school: { id: school.id, name: school.name },
-  amountDue: Math.floor(Math.random() * 10000), // Random amount due between 0 and 9999
-  dueDate: new Date(
-    2024,
-    Math.floor(Math.random() * 12),
-    Math.floor(Math.random() * 28) + 1,
-  ), // Random date in 2024
-  status: i % 2 === 0 ? "pending" : "paid",
-  items: getRandomInvoiceItems(),
-}));
+export const INVOICES: Invoice[] = SCHOOLS.flatMap((school, i) => {
+  const noOfInvoices = Math.floor(Math.random() * 5) + 1; // Random no of invoices
+  let invoices = [];
+
+  for (let j = 0; j < noOfInvoices; j++) {
+    let amountDue = Math.floor(Math.random() * 10000); // Random amount due between 0 and 9999
+
+    invoices.push({
+      id: i + 1,
+      school: { id: school.id, name: school.name },
+      amountDue,
+      dueDate: new Date(
+        2024,
+        Math.floor(Math.random() * 12),
+        Math.floor(Math.random() * 28) + 1,
+      ), // Random date in 2024
+      status: amountDue > 0 ? "pending" : "completed",
+      items: getRandomInvoiceItems(),
+    });
+  }
+
+  return invoices;
+});
 
 export const COLLECTIONS: Collection[] = INVOICES.map((invoice, i) => ({
   id: i + 1,
