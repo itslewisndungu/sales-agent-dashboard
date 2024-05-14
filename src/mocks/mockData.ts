@@ -589,3 +589,4 @@ export const mockUpcomingInvoices: Invoice[] =
       items,
     };
   });
+

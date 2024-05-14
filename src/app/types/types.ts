@@ -44,7 +44,7 @@ export interface SignupDistributionByProduct {
 }
 
 export interface InvoiceItem {
-name: string;
+  name: string;
   price: number;
 }
 

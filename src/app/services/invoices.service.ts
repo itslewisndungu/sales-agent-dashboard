@@ -3,10 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Invoice } from "../types/types";
 
 @Injectable({
-  providedIn: "root",
+  providedIn: "root"
 })
 export class InvoicesService {
-  constructor(readonly http: HttpClient) {}
+  constructor(readonly http: HttpClient) {
+  }
 
   getLatestInvoices() {
     return this.http.get<Invoice[]>("http://localhost:3000/upcoming-invoices");
@@ -14,15 +15,15 @@ export class InvoicesService {
 
   getSchoolInvoices(schoolID: number) {
     return this.http.get<Invoice[]>(
-      `http://localhost:3000/schools/${schoolID}/invoices`,
+      `http://localhost:3000/schools/${schoolID}/invoices`
     );
   }
 
-  createInvoice(invoice: any) {
+  createInvoice(invoice: Invoice) {
     return this.http.post("http://localhost:3000/invoices", invoice);
   }
 
-  updateInvoice(invoiceId: number, invoiceData: any) {
+  updateInvoice(invoiceId: number, invoiceData: Partial<Invoice>) {
     return this.http.patch(`http://localhost:3000/invoices/${invoiceId}`, invoiceData);
   }
 
@@ -31,14 +32,14 @@ export class InvoicesService {
       "Collecting payment for invoice",
       invoiceId,
       "Amount paid:",
-      amountPaid,
+      amountPaid
     );
 
     return this.http.post(
       `http://localhost:3000/invoices/${invoiceId}/collect`,
       {
-        amountPaid,
-      },
+        amountPaid
+      }
     );
   }
 
