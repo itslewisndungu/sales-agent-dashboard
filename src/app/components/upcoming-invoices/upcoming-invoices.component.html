@@ -1,8 +1,8 @@
 <app-invoice-list
   [showSchoolName]="true"
   (collectInvoicePayment)="handleCollection($event)"
-  (updateInvoice)="fetchUpcomingInvoices()"
-  (deleteInvoice)="fetchUpcomingInvoices()"
+  (updateInvoice)="handleUpdateInvoice($event)"
+  (deleteInvoice)="handleDeleteInvoice($event)"
   [invoices]="upcomingInvoices"
   [loading]="fetchingUpcomingInvoices"
 ></app-invoice-list>
@@ -15,4 +15,14 @@
     (paymentCollectionCancelled)="closeCollectionModal()"
     (paymentCollectionSuccessful)="closeCollectionModal(); fetchUpcomingInvoices()"
   />
+}
+
+@if (invoiceUpdateCreateState.status !== 'idle') {
+  <app-create-invoice
+    [isVisible]="true"
+    [school]="invoiceUpdateCreateState.selectedSchool"
+    [invoice]="invoiceUpdateCreateState.selectedInvoice"
+    (invoiceCreationCancelled)="closeInvoiceCreationModal()"
+    (invoiceCreationSuccess)="closeInvoiceCreationModal(); fetchUpcomingInvoices()"
+  ></app-create-invoice>
 }
