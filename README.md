@@ -87,7 +87,7 @@ Remember to configure your server to redirect all routes to `index.html` to take
 
 ## Contact
 
-If you want to contact me you can reach me at `<your_email@address.com>`.
+If you want to contact me you can reach me at `itslewisndungu@gmail.com`.
 
 ## License
 
