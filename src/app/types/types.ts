@@ -11,6 +11,9 @@ export interface School {
   type: SchoolType;
   products: ZerakiProduct[];
   county: string;
+  balance: number;
+  paymentDueDate: Date;
+  registrationDate: Date;
 }
 
 export interface MainStatistics {

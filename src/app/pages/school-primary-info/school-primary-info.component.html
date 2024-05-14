@@ -10,13 +10,17 @@
         [nzColumn]="{lg: 2,md: 2,xl: 2,xxl: 2,sm: 2, xs: 1 }"
         nzBordered
       >
-        <nz-descriptions-item nzTitle="Type">Primary School</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Product(s) Used">
-          <nz-tag nzColor="blue">Zeraki Analytics</nz-tag>
-          <nz-tag nzColor="blue">Zeraki Timetable</nz-tag>
+        <nz-descriptions-item nzTitle="Type">
+          {{ school?.type }}
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="County">Nairobi</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Registration Date">2018-04-24</nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="Product(s) Used">
+          <nz-tag *ngFor="let product of school?.products" nzColor="blue">{{ product }}</nz-tag>
+        </nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="County">
+          {{ school?.county }}
+        </nz-descriptions-item>
       </nz-descriptions>
     </div>
 
@@ -54,10 +58,10 @@
         nzBordered
       >
         <nz-descriptions-item nzTitle="Current School Balance">
-          {{ 1000000 | currency: 'KES': 'symbol-narrow' }}
+          {{ school?.balance | currency: 'KES': 'symbol-narrow' }}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Payment Due Date">
-          {{ '12-12-2024' | date }}
+          {{ school?.paymentDueDate ?? '2024-12-12' | date }}
         </nz-descriptions-item>
       </nz-descriptions>
     </div>

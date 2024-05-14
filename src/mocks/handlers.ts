@@ -7,6 +7,14 @@ export const handlers = [
     return HttpResponse.json(SCHOOLS);
   }),
 
+  http.get<{ schoolId: string }>(
+    "http://localhost:3000/schools/:schoolId",
+    ({ params }) => {
+      let school = SCHOOLS.find((school) => school.id === +params.schoolId);
+      return HttpResponse.json(school);
+    },
+  ),
+
   http.get("http://localhost:3000/upcoming-invoices", () => {
     return HttpResponse.json(
       INVOICES.filter(
@@ -82,6 +90,7 @@ export const handlers = [
 
   http.get("http://localhost:3000/schools/:schoolID/invoices", ({ params }) => {
     const { schoolID } = params;
+    console.log(schoolID);
 
     const schoolInvoices = INVOICES.filter(
       (invoice) => invoice.school.id === +schoolID,

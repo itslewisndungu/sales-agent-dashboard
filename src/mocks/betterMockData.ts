@@ -2,8 +2,8 @@ import {
   Collection,
   Invoice,
   InvoiceItem,
-  School,
-  ZerakiProduct,
+  School, SchoolType,
+  ZerakiProduct
 } from "../app/types/types";
 
 const products: ZerakiProduct[] = [
@@ -12,7 +12,7 @@ const products: ZerakiProduct[] = [
   "Zeraki Timetable",
 ];
 
-export const SCHOOLS: School[] = [
+const schools = [
   {
     id: 1,
     name: "Alliance High School",
@@ -154,6 +154,25 @@ export const SCHOOLS: School[] = [
     county: "Mombasa",
   },
 ];
+
+export const SCHOOLS: School[] = schools.map((s) => {
+  return {
+    ...s,
+    type: s.type as SchoolType,
+    products: s.products as ZerakiProduct[],
+    balance: Math.floor(Math.random() * 10000), // Random balance between 0 and 9999
+    paymentDueDate: new Date(
+      2024,
+      Math.floor(Math.random() * 12),
+      Math.floor(Math.random() * 28) + 1,
+    ), // Random date in 2024
+    registrationDate: new Date(
+      2020,
+      Math.floor(Math.random() * 12),
+      Math.floor(Math.random() * 28) + 1,
+    ), // Random date in 2020
+  };
+});
 
 function getRandomInvoiceItems(): InvoiceItem[] {
   const count = Math.floor(Math.random() * products.length) + 1;

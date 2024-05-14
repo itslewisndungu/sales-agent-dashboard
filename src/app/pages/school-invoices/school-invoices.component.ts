@@ -95,17 +95,17 @@ export class SchoolInvoicesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log(
-      this.route.parent?.params.subscribe((params) => console.log({ params })),
-    );
     this.fetchInvoices();
   }
 
   fetchInvoices() {
+    const params = this.route.parent?.snapshot.params;
+
     this.fetchingInvoices = true;
     this.invoiceSubscription?.unsubscribe();
+
     this.invoiceSubscription = this.invoiceService
-      .getSchoolInvoices(1)
+      .getSchoolInvoices(+params?.['id'])
       .subscribe((invoices) => {
         this.invoices = invoices;
         this.fetchingInvoices = false;
