@@ -2,6 +2,9 @@
   <thead>
   <tr>
     <th>Invoice ID</th>
+    @if (showSchoolName) {
+      <th>School</th>
+    }
     <th nzColumnKey="amountDue" [nzSortFn]="sortAmountDue">Amount Due</th>
     <th nzColumnKey="dueDate" [nzSortFn]="sortDueDate"
         [nzSortOrder]="defaultSortOrder"
@@ -18,10 +21,15 @@
   <tbody>
   <tr *ngFor="let invoice of basicTable.data">
     <td>
-      <a nz-button nzType="link" [routerLink]="[invoice.id]">
+      <a nz-button nzType="link" [routerLink]="['/', 'schools', invoice.school.id, 'invoices', invoice.id]">
         {{ invoice.id }}
       </a>
     </td>
+
+    @if (showSchoolName) {
+      <td>{{ invoice.school.name }}</td>
+    }
+
     <td>{{ invoice.amountDue | currency: 'KSH ' }}</td>
     <td>{{ invoice.dueDate | date }}</td>
     <td>

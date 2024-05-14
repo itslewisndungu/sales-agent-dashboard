@@ -11,6 +11,7 @@ import { InvoicesService } from "../../services/invoices.service";
 import { Invoice } from "../../types/types";
 import { CollectPaymentComponent } from "../collect-payment/collect-payment.component";
 import { Subscription } from "rxjs";
+import { InvoiceListComponent } from "../invoice-list/invoice-list.component";
 
 @Component({
   selector: "app-upcoming-invoices",
@@ -27,12 +28,14 @@ import { Subscription } from "rxjs";
     DatePipe,
     NgIf,
     CollectPaymentComponent,
+    InvoiceListComponent,
   ],
   templateUrl: "./upcoming-invoices.component.html",
   styleUrl: "./upcoming-invoices.component.css",
 })
 export class UpcomingInvoicesComponent implements OnInit, OnDestroy {
   upcomingInvoices: Invoice[] = [];
+  fetchingUpcomingInvoices = false;
   fetchInvoicesSubscription?: Subscription;
 
   invoicePaymentCollectionState:
@@ -48,7 +51,7 @@ export class UpcomingInvoicesComponent implements OnInit, OnDestroy {
 
   constructor(readonly invoiceService: InvoicesService) {}
 
-  handleCollection(invoice: any) {
+  handleCollection(invoice: Invoice) {
     this.invoicePaymentCollectionState = {
       isAddingCollectionToInvoice: true,
       selectedInvoice: invoice,
@@ -56,19 +59,21 @@ export class UpcomingInvoicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.fetchUpcomingInvoices()
+    this.fetchUpcomingInvoices();
   }
 
   fetchUpcomingInvoices() {
+    this.fetchingUpcomingInvoices = true;
     this.fetchInvoicesSubscription = this.invoiceService
       .getLatestInvoices()
       .subscribe((invoices) => {
         this.upcomingInvoices = invoices;
+        this.fetchingUpcomingInvoices = false;
       });
   }
 
   closeCollectionModal() {
-    this.invoicePaymentCollectionState = { isAddingCollectionToInvoice: false }
+    this.invoicePaymentCollectionState = { isAddingCollectionToInvoice: false };
   }
 
   ngOnDestroy() {

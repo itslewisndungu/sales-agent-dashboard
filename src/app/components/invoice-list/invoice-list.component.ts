@@ -48,6 +48,7 @@ import { NzIconDirective } from "ng-zorro-antd/icon";
   templateUrl: "./invoice-list.component.html",
 })
 export class InvoiceListComponent implements OnChanges {
+  @Input() showSchoolName: boolean = false;
   @Input() invoices: Invoice[] = [];
   @Input() loading: boolean = false;
 
@@ -74,7 +75,8 @@ export class InvoiceListComponent implements OnChanges {
 
   filterStatus(selectedValues: string[]): void {
     this.filteredInvoices = this.invoices.filter(
-      (invoice) => selectedValues.length === 0 || selectedValues.includes(invoice.status),
+      (invoice) =>
+        selectedValues.length === 0 || selectedValues.includes(invoice.status),
     );
   }
 
