@@ -192,7 +192,7 @@ export const INVOICES: Invoice[] = SCHOOLS.flatMap((school, i) => {
     let amountDue = Math.floor(Math.random() * 10000); // Random amount due between 0 and 9999
 
     invoices.push({
-      id: i + 1,
+      id: i + 1 + j,
       school: { id: school.id, name: school.name },
       amountDue,
       dueDate: new Date(

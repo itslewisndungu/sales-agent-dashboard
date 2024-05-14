@@ -1,10 +1,10 @@
 import {
   Component,
   EventEmitter,
-  Input, OnChanges,
-  OnInit,
+  Input,
+  OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from "@angular/core";
 import { CurrencyPipe, NgForOf } from "@angular/common";
 import { DatePipe } from "../../pipes/date.pipe";
@@ -16,7 +16,11 @@ import {
   NzDropDownDirective,
   NzDropdownMenuComponent,
 } from "ng-zorro-antd/dropdown";
-import { NzTableModule } from "ng-zorro-antd/table";
+import {
+  NzTableModule,
+  NzTableSortFn,
+  NzTableSortOrder,
+} from "ng-zorro-antd/table";
 import { RouterLink } from "@angular/router";
 import { NzTagModule } from "ng-zorro-antd/tag";
 import { Invoice } from "../../types/types";
@@ -51,16 +55,20 @@ export class InvoiceListComponent implements OnChanges {
   @Output() deleteInvoice = new EventEmitter<Invoice>();
   @Output() collectInvoicePayment = new EventEmitter<Invoice>();
 
+  defaultSortOrder: NzTableSortOrder = "ascend";
+
   filteredInvoices: Invoice[] = [];
   statusFilterOptions = [
     { text: "Pending", value: "pending" },
     { text: "Completed", value: "completed" },
   ];
 
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["invoices"]) {
-      this.filteredInvoices = this.invoices; // Initialize filtered data
+      // Sort invoices by due date
+      this.filteredInvoices = [...this.invoices].sort((a, b) =>
+        this.sortDueDate(a, b, this.defaultSortOrder),
+      );
     }
   }
 
@@ -90,7 +98,16 @@ export class InvoiceListComponent implements OnChanges {
     return a.status.localeCompare(b.status);
   }
 
-  sortDueDate(a: Invoice, b: Invoice): number {
-    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-  }
+  sortDueDate: NzTableSortFn<Invoice> = (
+    a: Invoice,
+    b: Invoice,
+    sortOrder?: NzTableSortOrder,
+  ) => {
+    if (!sortOrder) {
+      return 0; // No sorting when order is null
+    }
+    return sortOrder === "ascend"
+      ? new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+      : new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+  };
 }

@@ -3,11 +3,15 @@
   <tr>
     <th>Invoice ID</th>
     <th nzColumnKey="amountDue" [nzSortFn]="sortAmountDue">Amount Due</th>
-    <th nzColumnKey="dueDate" [nzSortFn]="sortDueDate">Due Date</th>
+    <th nzColumnKey="dueDate" [nzSortFn]="sortDueDate"
+        [nzSortOrder]="defaultSortOrder"
+    >Due Date
+    </th>
     <th nzColumnKey="status" [nzSortFn]="sortStatus"
         [nzFilters]="statusFilterOptions"
         (nzFilterChange)="filterStatus($event)"
-    >Status</th>
+    >Status
+    </th>
     <th>Action</th>
   </tr>
   </thead>
