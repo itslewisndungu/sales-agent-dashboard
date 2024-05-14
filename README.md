@@ -14,12 +14,16 @@ Key features of the application include:
 
 ## Key Design Decisions
 
+### Technologies Used
 - **Angular**: We chose Angular for its robustness and full-featured nature. Angular's built-in features like HTTP client, forms, and routing made it a good fit for this project. We implemented the application using angular standalone components, which is the mordern way of building Angular applications.
 - **TypeScript**: TypeScript provides static types which improve code quality and developer productivity.
 - **Ng-Zorro**: We used the Ng-Zorro component library to speed up development and ensure a consistent look and feel across the application.
 - **Tailwind CSS**: We used Tailwind CSS for styling the application. Tailwind CSS is a utility-first CSS framework that makes it easy to create custom designs.
 - **Chart.js**: We used Chart.js to create charts for visualizing data in the application.
 - **MSW**: We used MSW (Mock Service Worker) to mock API requests during development. This allowed us to develop features without relying on a real backend.
+
+### Ways to Improve
+This application relies on memory data. This results in unrelated invoices and collecitons, and it would be nice to relate the two properly through a database
 
 ## Prerequisites
 
